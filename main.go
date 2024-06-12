@@ -1,21 +1,25 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/exec"
 )
 
-func GetLanguageDocs(language string) {
-	command := fmt.Sprintf("$(dedoc search %s | fzf | dedoc open %s)", language, language)
-
-	getDocsCMD := exec.Command("bash", "-c", command)
-
-	getDocsCMD.Stdout = os.Stdout
+func GetLanguageDocs(language string) string {
+	getDocsCMD := exec.Command("dedoc", "search", language)
 	getDocsCMD.Stderr = os.Stderr
 	getDocsCMD.Stdin = os.Stdin
 
-	getDocsCMD.Run()
+	out, err := getDocsCMD.Output()
+
+	if err != nil {
+		log.Fatalln("error getting language documentation")
+	}
+
+	return string(out)
 }
 
 func main() {
+
 }
