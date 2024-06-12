@@ -6,6 +6,14 @@ import (
 	"os/exec"
 )
 
+/*
+description: gets the documentation entries of the language
+arguments:
+
+	language: the language to get the documentation for
+
+return: a string containing the unfiltered documentation entries
+*/
 func GetLanguageDocs(language string) string {
 	getDocsCMD := exec.Command("dedoc", "search", language)
 	getDocsCMD.Stderr = os.Stderr
