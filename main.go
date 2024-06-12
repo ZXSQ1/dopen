@@ -4,6 +4,9 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
+
+	"github.com/go-delve/delve/pkg/dwarf/line"
 )
 
 /*
@@ -26,6 +29,29 @@ func GetLanguageDocs(language string) string {
 	}
 
 	return string(out)
+}
+
+func FilterLanguageDocs(unfilteredDocs string) (result string) {
+	unfilteredDocs := strings.ReplaceAll(unfilteredDocs, "\t", " ")
+
+	for _, line := range strings.Split(unfilteredDocs, "\n") {
+		if !strings.HasPrefix(line, " ") {
+			continue
+		}
+
+		words := strings.Split(line, " ")
+		entry := words[len(words)-1]
+		parent := ""
+
+		if strings.HasPrefix(entry, "#") {
+			result += parent + entry + "\n"
+		} else {
+			parent = entry
+			result += parent + "\n"
+		}
+	}
+
+	return
 }
 
 func main() {
