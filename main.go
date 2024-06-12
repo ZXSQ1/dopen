@@ -14,7 +14,7 @@ func GetLanguageDocs(language string) string {
 	out, err := getDocsCMD.Output()
 
 	if err != nil {
-		log.Fatalln("error getting language documentation")
+		log.Fatalln("GetLanguageDocs: error getting language documentation")
 	}
 
 	return string(out)
