@@ -29,6 +29,14 @@ func GetLanguageDocs(language string) string {
 	return string(out)
 }
 
+/*
+description: filters the language documentation
+arguments:
+
+	unfilteredDocs: the documentation string to filter (from GetLanguageDocs())
+
+return: the filtered string documentation
+*/
 func FilterLanguageDocs(unfilteredDocs string) (result string) {
 	unfilteredDocs = strings.ReplaceAll(unfilteredDocs, "\t", " ")
 
