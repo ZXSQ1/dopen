@@ -44,7 +44,7 @@ func (lang *Language) FetchDocs() {
 	out, err := getDocsCMD.Output()
 
 	if err != nil {
-		log.Fatalln("GetLanguageDocs: error getting language documentation")
+		log.Fatalln("FetchDocs: error getting language documentation")
 	}
 
 	lang.docs = string(out)
