@@ -60,7 +60,7 @@ return:
 func IsFile(file string) (bool, error) {
 	isDir, err := IsDir(file)
 
-	if err != nil {
+	if err == nil {
 		return !isDir, nil
 	} else {
 		return false, err
