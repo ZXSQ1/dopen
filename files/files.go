@@ -47,3 +47,33 @@ return: true if it is a file and false otherwise
 func IsFile(file string) bool {
   return !IsDir(file)
 }
+
+func WriteFile(file string, data []byte) {
+  var fileObj *os.File
+
+  if IsExists(file) && IsFile(file) {
+    fileObj, err := os.Open(file)
+    
+    if err != nil {
+      log.Fatalf("WriteFile: error opening file %s\n", file)
+    }
+
+    defer fileObj.Close()
+  } else if !IsExists(file) {
+    fileObj, err := os.Create(file)
+
+    if err != nil {
+      log.Fatalf("WriteFile: error creating file %s\n", file)
+    }
+
+    defer fileObj.Close()
+  } else if IsExists(file) && IsDir(file) {
+    log.Fatalf("WriteFile: file %s is a directory\n", file)
+  } 
+
+  _, err := fileObj.Write(data);
+
+  if err != nil {
+    log.Fatalf("WriteFile: error writing file %s\n", file)
+  }
+}
