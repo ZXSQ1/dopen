@@ -34,7 +34,7 @@ func GetLanguage(name string) Language {
 /*
 description: gets the documentation entries of the language
 arguments: uses the fields in the Language structure
-return: a string containing the unfiltered documentation entries
+return: a string containing the unfiltered documentation entries; stored in the Language structure
 */
 func (lang *Language) FetchDocs() {
 	getDocsCMD := exec.Command("dedoc", "search", lang.name)
@@ -54,7 +54,7 @@ func (lang *Language) FetchDocs() {
 /*
 description: filters the language documentation
 arguments: uses the fields in the Language structure
-return: the filtered string documentation
+return: the filtered string documentation; stored in the Language structure
 */
 func (lang *Language) FilterDocs() {
 	if lang.isFiltered || !lang.isFetched {
@@ -88,9 +88,7 @@ func (lang *Language) FilterDocs() {
 /*
 description: allows the user to choose docs
 arguments: the fields in the Language structure
-return: the chosen doc is returned and stored
-
-	in the Language structure
+return: the chosen doc is returned and stored in the Language structure
 */
 func (lang *Language) ChooseDocs() {
 	if !lang.isFiltered || !lang.isFetched {
