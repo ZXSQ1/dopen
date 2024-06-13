@@ -10,6 +10,7 @@ import (
 type Language struct {
 	name       string
 	docs       string
+	chosenDoc  string
 	isFetched  bool
 	isFiltered bool
 }
@@ -82,6 +83,24 @@ func (lang *Language) FilterDocs() {
 
 	lang.docs = result
 	lang.isFiltered = true
+}
+
+func (lang *Language) ChooseDocs() {
+	if !lang.isFiltered || !lang.isFetched {
+		return
+	}
+
+	cmd := exec.Command("bash", "-c", "echo "+lang.docs+"| fzf")
+	cmd.Stdin = os.Stdin
+	cmd.Stderr = os.Stderr
+
+	out, err := cmd.Output()
+
+	if err != nil {
+		log.Fatalln("ChooseDocs: error choosing documentation entry")
+	}
+
+	lang.chosenDoc = string(out)
 }
 
 func main() {
