@@ -48,7 +48,14 @@ func IsFile(file string) bool {
   return !IsDir(file)
 }
 
+/*
+description: used to get the file object
+arguments:
 
+  file: the file path to return an object from
+
+return: the file object
+*/
 func GetFile(file string) (result *os.File) {
   if IsExists(file) && IsFile(file) {
     fileObj, err := os.Open(file)
