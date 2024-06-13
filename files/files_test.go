@@ -67,28 +67,18 @@ func TestGetFile(t *testing.T) {
 	tmpFileName := "tmp.d"
 
 	t.Cleanup(func() {
-		os.Remove(tmpFileName)
 		os.RemoveAll(tmpFileName)
 	})
 
-	// Case #1
 	os.Create(tmpFileName)
 	GetFile(tmpFileName)
 
-	// Case #2
 	os.Remove(tmpFileName)
 	GetFile(tmpFileName)
 
-	// Case #3
 	os.Remove(tmpFileName)
 	os.Mkdir(tmpFileName, 0644)
 	GetFile(tmpFileName)
-
-	/*
-		if it exits on case #3 with an error that goes like:
-			file <file> is a directory
-		then it is working properly
-	*/
 }
 
 func TestWriteFile(t *testing.T) {
