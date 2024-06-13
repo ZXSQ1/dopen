@@ -8,8 +8,9 @@ import (
 )
 
 type Language struct {
-	name string
-	docs string
+	name       string
+	docs       string
+	isFiltered bool
 }
 
 /*
@@ -47,15 +48,17 @@ func (lang *Language) FetchDocs() {
 
 /*
 description: filters the language documentation
-arguments:
-
-	unfilteredDocs: the documentation string to filter (from GetLanguageDocs())
-
+arguments: uses the fields in the Language structure
 return: the filtered string documentation
 */
-func FilterLanguageDocs(unfilteredDocs string) (result string) {
+func (lang *Language) FilterDocs() {
+	if lang.isFiltered {
+		return
+	}
+
 	unfilteredDocs = strings.ReplaceAll(unfilteredDocs, "\t", " ")
 
+	result := ""
 	parent := ""
 	for _, line := range strings.Split(unfilteredDocs, "\n") {
 		if !strings.HasPrefix(line, " ") {
@@ -73,7 +76,8 @@ func FilterLanguageDocs(unfilteredDocs string) (result string) {
 		}
 	}
 
-	return
+	lang.docs = result
+	lang.isFiltered = true
 }
 
 func main() {
