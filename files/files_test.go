@@ -118,7 +118,7 @@ func TestReadFile(t *testing.T) {
 
 	WriteFile(tmpFileName, []byte(tmpFileData))
 
-	if string(ReadFile(tmpFileName)) != tmpFileData {
+	if readData, _ := ReadFile(tmpFileName); string(readData) != tmpFileData {
 		t.Fail()
 	}
 }
