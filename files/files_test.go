@@ -105,3 +105,18 @@ func TestWriteFile(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestReadFile(t *testing.T) {
+	tmpFileName := "tmp"
+	tmpFileData := "tmp.d"
+
+	t.Cleanup(func() {
+		os.Remove(tmpFileName)
+	})
+
+	WriteFile(tmpFileName, []byte(tmpFileData))
+
+	if string(ReadFile(tmpFileName)) != tmpFileData {
+		t.Fail()
+	}
+}
