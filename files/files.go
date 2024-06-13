@@ -35,3 +35,7 @@ func IsDir(file string) bool {
   stat, _ := os.Stat(file)
   return stat.IsDir()
 }
+
+func IsFile(file string) bool {
+  return !IsDir(file)
+}
