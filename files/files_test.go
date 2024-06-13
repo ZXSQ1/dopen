@@ -30,14 +30,14 @@ func TestIsDir(t *testing.T) {
 
 	os.Mkdir(tmpDirName, 0644)
 
-	if !IsDir(tmpDirName) {
+	if isDir, _ := IsDir(tmpDirName); !isDir {
 		t.Fail()
 	}
 
 	os.RemoveAll(tmpDirName)
 	os.Create(tmpDirName)
 
-	if IsDir(tmpDirName) {
+	if isDir, _ := IsDir(tmpDirName); isDir {
 		t.Fail()
 	}
 }
