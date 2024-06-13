@@ -8,9 +8,14 @@ import (
 
 // Errors
 
-var errNotExist error = fmt.Errorf("file not exists")
-var errNotFile error = fmt.Errorf("path not file")
-var errNotDir error = fmt.Errorf("path not dir")
+var ErrNotExist error = fmt.Errorf("file not exists")
+var ErrNotFile error = fmt.Errorf("path not file")
+var ErrNotDir error = fmt.Errorf("path not dir")
+
+var ErrOpenFile error = fmt.Errorf("error opening file")
+var ErrCreateFile error = fmt.Errorf("error creating file")
+var ErrWriteFile error = fmt.Errorf("error writing file")
+var ErrReadFile error = fmt.Errorf("error reading file")
 
 ////////
 
@@ -40,7 +45,7 @@ return:
 */
 func IsDir(file string) (bool, error) {
 	if !IsExists(file) {
-		return false, errNotExist
+		return false, ErrNotExist
 	}
 
 	stat, _ := os.Stat(file)
@@ -73,14 +78,19 @@ arguments:
 
 	file: the file path to return an object from
 
-return: the file object
+return:
+	- the file object
+	- an error
 */
-func GetFile(file string) (result *os.File) {
-	if IsExists(file) && IsFile(file) {
+func GetFile(file string) (result *os.File, retErr error) {
+	isDir, _ := IsDir(file)
+	isFile := !isDir
+
+	if IsExists(file) && isFile {
 		fileObj, err := os.Open(file)
 
 		if err != nil {
-			fmt.Printf("GetFile: error opening file %s\n", file)
+			return nil, ErrOpenFile
 		}
 
 		result = fileObj
@@ -88,12 +98,12 @@ func GetFile(file string) (result *os.File) {
 		fileObj, err := os.Create(file)
 
 		if err != nil {
-			fmt.Printf("GetFile: error creating file %s\n", file)
+			return nil, ErrCreateFile
 		}
 
 		result = fileObj
-	} else if IsExists(file) && IsDir(file) {
-		fmt.Printf("GetFile: file %s is a directory\n", file)
+	} else if IsExists(file) && isDir {
+		return nil, ErrNotFile
 	}
 
 	return
