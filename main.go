@@ -95,16 +95,18 @@ func (lang *Language) ChooseDocs() {
 		return
 	}
 
-	cmd := exec.Command("bash", "-c", "echo "+lang.docs+"| fzf")
+	cmd := exec.Command("bash", "-c", "fzf > .tmp && echo $(cat .tmp) && rm .tmp")
+	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdin
 	cmd.Stderr = os.Stderr
 
-	out, err := cmd.Output()
+	err := cmd.Run()
 
 	if err != nil {
 		log.Fatalln("ChooseDocs: error choosing documentation entry")
 	}
 
+	out, _ := cmd.Output()
 	lang.chosenDoc = string(out)
 }
 
