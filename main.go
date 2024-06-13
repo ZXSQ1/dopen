@@ -56,7 +56,7 @@ func (lang *Language) FilterDocs() {
 		return
 	}
 
-	unfilteredDocs = strings.ReplaceAll(unfilteredDocs, "\t", " ")
+	unfilteredDocs := strings.ReplaceAll(lang.docs, "\t", " ")
 
 	result := ""
 	parent := ""
