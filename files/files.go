@@ -1,6 +1,7 @@
 package files
 
 import (
+	"log"
 	"os"
 )
 
@@ -13,15 +14,16 @@ arguments:
 return: true if it exists and false otherwise
 */
 func IsExists(file string) bool {
-	return !os.IsNotExist(file)
+  _, err := os.Stat(file)
+
+	return !os.IsNotExist(err)
 }
 
-func IsFile(file string) bool {
-	if !IsExists(file) {
-		return false
-	}
+func IsDir(file string) bool {
+  if !IsExists(file) {
+    log.Fatalln("IsDir: file not exists")
+  }
 
-	stat, _ := os.Stat(file)
-
-  return !stat.IsDir()
+  stat, _ := os.Stat(file)
+  return stat.IsDir()
 }
