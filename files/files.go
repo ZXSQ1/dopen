@@ -48,6 +48,31 @@ func IsFile(file string) bool {
   return !IsDir(file)
 }
 
+
+func GetFile(file string) (result *os.File) {
+  if IsExists(file) && IsFile(file) {
+    fileObj, err := os.Open(file)
+    
+    if err != nil {
+      log.Fatalf("GetFile: error opening file %s\n", file)
+    }
+
+    result = fileObj
+  } else if !IsExists(file) {
+    fileObj, err := os.Create(file)
+
+    if err != nil {
+      log.Fatalf("GetFile: error creating file %s\n", file)
+    }
+
+    result = fileObj
+  } else if IsExists(file) && IsDir(file) {
+    log.Fatalf("GetFile: file %s is a directory\n", file)
+  }
+
+  return
+}
+
 /*
 description: writes data to a file
 arguments:
@@ -58,27 +83,8 @@ arguments:
 return: 
 */
 func WriteFile(file string, data []byte) {
-  var fileObj *os.File
-
-  if IsExists(file) && IsFile(file) {
-    fileObj, err := os.Open(file)
-    
-    if err != nil {
-      log.Fatalf("WriteFile: error opening file %s\n", file)
-    }
-
-    defer fileObj.Close()
-  } else if !IsExists(file) {
-    fileObj, err := os.Create(file)
-
-    if err != nil {
-      log.Fatalf("WriteFile: error creating file %s\n", file)
-    }
-
-    defer fileObj.Close()
-  } else if IsExists(file) && IsDir(file) {
-    log.Fatalf("WriteFile: file %s is a directory\n", file)
-  } 
+  fileObj := GetFile(file)
+  defer fileObj.Close()
 
   _, err := fileObj.Write(data);
 
