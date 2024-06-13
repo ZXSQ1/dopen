@@ -12,6 +12,14 @@ type Language struct {
 	docs string
 }
 
+/*
+description: gets an instance of the Language type
+arguments:
+
+	name: the name of the language
+
+return: the language object with the language name
+*/
 func GetLanguage(name string) Language {
 	return Language{
 		name: name,
