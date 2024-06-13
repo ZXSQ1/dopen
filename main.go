@@ -10,6 +10,7 @@ import (
 type Language struct {
 	name       string
 	docs       string
+	isFetched  bool
 	isFiltered bool
 }
 
@@ -23,7 +24,9 @@ return: the language object with the language name
 */
 func GetLanguage(name string) Language {
 	return Language{
-		name: name,
+		name:       name,
+		isFiltered: false,
+		isFetched:  false,
 	}
 }
 
@@ -44,6 +47,7 @@ func (lang *Language) FetchDocs() {
 	}
 
 	lang.docs = string(out)
+	lang.isFetched = true
 }
 
 /*
@@ -52,7 +56,7 @@ arguments: uses the fields in the Language structure
 return: the filtered string documentation
 */
 func (lang *Language) FilterDocs() {
-	if lang.isFiltered {
+	if lang.isFiltered || !lang.isFetched {
 		return
 	}
 
