@@ -1,8 +1,8 @@
 package files
 
 import (
+	"fmt"
 	"io"
-	"log"
 	"os"
 )
 
@@ -30,7 +30,7 @@ return: true if it is a directory and false otherwise
 */
 func IsDir(file string) bool {
 	if !IsExists(file) {
-		log.Fatalln("IsDir: file not exists")
+		fmt.Println("IsDir: file not exists")
 	}
 
 	stat, _ := os.Stat(file)
@@ -62,7 +62,7 @@ func GetFile(file string) (result *os.File) {
 		fileObj, err := os.Open(file)
 
 		if err != nil {
-			log.Fatalf("GetFile: error opening file %s\n", file)
+			fmt.Printf("GetFile: error opening file %s\n", file)
 		}
 
 		result = fileObj
@@ -70,12 +70,12 @@ func GetFile(file string) (result *os.File) {
 		fileObj, err := os.Create(file)
 
 		if err != nil {
-			log.Fatalf("GetFile: error creating file %s\n", file)
+			fmt.Printf("GetFile: error creating file %s\n", file)
 		}
 
 		result = fileObj
 	} else if IsExists(file) && IsDir(file) {
-		log.Fatalf("GetFile: file %s is a directory\n", file)
+		fmt.Printf("GetFile: file %s is a directory\n", file)
 	}
 
 	return
@@ -97,7 +97,7 @@ func WriteFile(file string, data []byte) {
 	_, err := fileObj.Write(data)
 
 	if err != nil {
-		log.Fatalf("WriteFile: error writing file %s\n", file)
+		fmt.Printf("WriteFile: error writing file %s\n", file)
 	}
 }
 
@@ -124,7 +124,7 @@ func ReadFile(file string) (result []byte) {
 				break
 			}
 
-			log.Fatalf("ReadFile: %s\n", err.Error())
+			fmt.Printf("ReadFile: %s\n", err.Error())
 		}
 	}
 

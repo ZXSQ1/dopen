@@ -42,7 +42,7 @@ func (lang *Language) FetchDocs() {
 	out, err := getDocsCMD.Output()
 
 	if err != nil {
-		log.Fatalln("FetchDocs: error getting language documentation")
+		fmt.Println("FetchDocs: error getting language documentation")
 	}
 
 	lang.docs = string(out)
@@ -101,7 +101,7 @@ func (lang *Language) ChooseDocs() {
 	err := cmd.Run()
 
 	if err != nil {
-		log.Fatalln("ChooseDocs: error choosing documentation entry")
+		fmt.Println("ChooseDocs: error choosing documentation entry")
 	}
 
 	out, _ := cmd.Output()
