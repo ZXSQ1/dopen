@@ -12,6 +12,12 @@ type Language struct {
 	docs string
 }
 
+func GetLanguage(name string) Language {
+	return Language{
+		name: name,
+	}
+}
+
 /*
 description: gets the documentation entries of the language
 arguments:
