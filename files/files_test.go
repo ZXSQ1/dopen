@@ -68,6 +68,7 @@ func TestGetFile(t *testing.T) {
 
 	t.Cleanup(func() {
 		os.Remove(tmpFileName)
+		os.RemoveAll(tmpFileName)
 	})
 
 	// Case #1
