@@ -1,6 +1,7 @@
 package files
 
 import (
+	"io"
 	"log"
 	"os"
 )
@@ -14,7 +15,7 @@ arguments:
 return: true if it exists and false otherwise
 */
 func IsExists(file string) bool {
-  _, err := os.Stat(file)
+	_, err := os.Stat(file)
 
 	return !os.IsNotExist(err)
 }
@@ -23,79 +24,101 @@ func IsExists(file string) bool {
 description: checks if the file is a directory
 arguments:
 
-  file: the file path to check for
+	file: the file path to check for
 
 return: true if it is a directory and false otherwise
 */
 func IsDir(file string) bool {
-  if !IsExists(file) {
-    log.Fatalln("IsDir: file not exists")
-  }
+	if !IsExists(file) {
+		log.Fatalln("IsDir: file not exists")
+	}
 
-  stat, _ := os.Stat(file)
-  return stat.IsDir()
+	stat, _ := os.Stat(file)
+	return stat.IsDir()
 }
 
 /*
 description: checks if the file is a file
 arguments:
 
-  file: the file path to check for
+	file: the file path to check for
 
 return: true if it is a file and false otherwise
 */
 func IsFile(file string) bool {
-  return !IsDir(file)
+	return !IsDir(file)
 }
 
 /*
 description: used to get the file object
 arguments:
 
-  file: the file path to return an object from
+	file: the file path to return an object from
 
 return: the file object
 */
 func GetFile(file string) (result *os.File) {
-  if IsExists(file) && IsFile(file) {
-    fileObj, err := os.Open(file)
-    
-    if err != nil {
-      log.Fatalf("GetFile: error opening file %s\n", file)
-    }
+	if IsExists(file) && IsFile(file) {
+		fileObj, err := os.Open(file)
 
-    result = fileObj
-  } else if !IsExists(file) {
-    fileObj, err := os.Create(file)
+		if err != nil {
+			log.Fatalf("GetFile: error opening file %s\n", file)
+		}
 
-    if err != nil {
-      log.Fatalf("GetFile: error creating file %s\n", file)
-    }
+		result = fileObj
+	} else if !IsExists(file) {
+		fileObj, err := os.Create(file)
 
-    result = fileObj
-  } else if IsExists(file) && IsDir(file) {
-    log.Fatalf("GetFile: file %s is a directory\n", file)
-  }
+		if err != nil {
+			log.Fatalf("GetFile: error creating file %s\n", file)
+		}
 
-  return
+		result = fileObj
+	} else if IsExists(file) && IsDir(file) {
+		log.Fatalf("GetFile: file %s is a directory\n", file)
+	}
+
+	return
 }
 
 /*
 description: writes data to a file
 arguments:
 
-  file: the file path to write to
-  data: the data to write to the file
+	file: the file path to write to
+	data: the data to write to the file
 
-return: 
+return:
 */
 func WriteFile(file string, data []byte) {
-  fileObj := GetFile(file)
-  defer fileObj.Close()
+	fileObj := GetFile(file)
+	defer fileObj.Close()
 
-  _, err := fileObj.Write(data);
+	_, err := fileObj.Write(data)
 
-  if err != nil {
-    log.Fatalf("WriteFile: error writing file %s\n", file)
-  }
+	if err != nil {
+		log.Fatalf("WriteFile: error writing file %s\n", file)
+	}
+}
+
+func ReadFile(file string) (result []byte) {
+	fileObj := GetFile(file)
+	defer fileObj.Close()
+
+	buffer := make([]byte, 1024)
+
+	for {
+		nBytes, err := fileObj.Read(buffer)
+		result = append(result, buffer[:nBytes]...)
+
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+
+			log.Fatalf("ReadFile: %s\n", err.Error())
+		}
+	}
+
+	return
 }
