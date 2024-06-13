@@ -53,10 +53,18 @@ arguments:
 
 	file: the file path to check for
 
-return: true if it is a file and false otherwise
+return:
+  - true if it is a file and false otherwise
+  - an error if it doesn't exist
 */
-func IsFile(file string) bool {
-	return !IsDir(file)
+func IsFile(file string) (bool, error) {
+	isDir, err := IsDir(file)
+
+	if err != nil {
+		return !isDir, nil
+	} else {
+		return false, err
+	}
 }
 
 /*
