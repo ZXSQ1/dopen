@@ -19,6 +19,14 @@ func IsExists(file string) bool {
 	return !os.IsNotExist(err)
 }
 
+/*
+description: checks if the file is a directory
+arguments:
+
+  file: the file path to check for existence
+
+return: true if it is a directory and false otherwise
+*/
 func IsDir(file string) bool {
   if !IsExists(file) {
     log.Fatalln("IsDir: file not exists")
