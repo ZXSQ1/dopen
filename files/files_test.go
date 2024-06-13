@@ -71,14 +71,26 @@ func TestGetFile(t *testing.T) {
 	})
 
 	os.Create(tmpFileName)
-	GetFile(tmpFileName)
+	_, err := GetFile(tmpFileName)
+
+	if err != nil {
+		t.Fail()
+	}
 
 	os.Remove(tmpFileName)
-	GetFile(tmpFileName)
+	_, err = GetFile(tmpFileName)
+
+	if err != nil {
+		t.Fail()
+	}
 
 	os.Remove(tmpFileName)
 	os.Mkdir(tmpFileName, 0644)
-	GetFile(tmpFileName)
+	_, err = GetFile(tmpFileName)
+
+	if err != ErrNotFile {
+		t.Fail()
+	}
 }
 
 func TestWriteFile(t *testing.T) {
