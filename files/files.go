@@ -101,6 +101,14 @@ func WriteFile(file string, data []byte) {
 	}
 }
 
+/*
+description: reads data from a file
+arguments:
+
+	file: the file to read from
+
+return: the read bytes
+*/
 func ReadFile(file string) (result []byte) {
 	fileObj := GetFile(file)
 	defer fileObj.Close()
