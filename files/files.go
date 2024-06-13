@@ -48,6 +48,15 @@ func IsFile(file string) bool {
   return !IsDir(file)
 }
 
+/*
+description: writes data to a file
+arguments:
+
+  file: the file path to write to
+  data: the data to write to the file
+
+return: 
+*/
 func WriteFile(file string, data []byte) {
   var fileObj *os.File
 
