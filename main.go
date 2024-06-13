@@ -85,6 +85,13 @@ func (lang *Language) FilterDocs() {
 	lang.isFiltered = true
 }
 
+/*
+description: allows the user to choose docs
+arguments: the fields in the Language structure
+return: the chosen doc is returned and stored
+
+	in the Language structure
+*/
 func (lang *Language) ChooseDocs() {
 	if !lang.isFiltered || !lang.isFetched {
 		return
