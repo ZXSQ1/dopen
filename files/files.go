@@ -6,6 +6,14 @@ import (
 	"os"
 )
 
+// Errors
+
+var errNotExist error = fmt.Errorf("file not exists")
+var errNotFile error = fmt.Errorf("path not file")
+var errNotDir error = fmt.Errorf("path not dir")
+
+////////
+
 /*
 description: checks if the file exists or not
 arguments:
@@ -26,15 +34,17 @@ arguments:
 
 	file: the file path to check for
 
-return: true if it is a directory and false otherwise
+return:
+  - true if it is a directory and false otherwise
+  - an error if it doesn't exist
 */
-func IsDir(file string) bool {
+func IsDir(file string) (bool, error) {
 	if !IsExists(file) {
-		fmt.Println("IsDir: file not exists")
+		return false, errNotExist
 	}
 
 	stat, _ := os.Stat(file)
-	return stat.IsDir()
+	return stat.IsDir(), nil
 }
 
 /*
