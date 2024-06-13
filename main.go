@@ -7,6 +7,11 @@ import (
 	"strings"
 )
 
+type Language struct {
+	name string
+	docs string
+}
+
 /*
 description: gets the documentation entries of the language
 arguments:
