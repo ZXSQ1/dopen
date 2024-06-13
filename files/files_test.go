@@ -21,7 +21,6 @@ func TestIsExists(t *testing.T) {
 	}
 }
 
-
 func TestIsDir(t *testing.T) {
 	tmpDirName := "tmp.d"
 
@@ -39,6 +38,27 @@ func TestIsDir(t *testing.T) {
 	os.Create(tmpDirName)
 
 	if IsDir(tmpDirName) {
+		t.Fail()
+	}
+}
+
+func TestIsFile(t *testing.T) {
+	tmpFileName := "tmp.d"
+
+	t.Cleanup(func() {
+		os.RemoveAll(tmpFileName)
+	})
+
+	os.Create(tmpFileName)
+
+	if !IsFile(tmpFileName) {
+		t.Fail()
+	}
+
+	os.Remove(tmpFileName)
+	os.Mkdir(tmpFileName, 0644)
+
+	if IsFile(tmpFileName) {
 		t.Fail()
 	}
 }
