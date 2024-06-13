@@ -116,17 +116,23 @@ arguments:
 	file: the file path to write to
 	data: the data to write to the file
 
-return:
+return: an error if anything goes wrong
 */
-func WriteFile(file string, data []byte) {
-	fileObj := GetFile(file)
+func WriteFile(file string, data []byte) error {
+	fileObj, err := GetFile(file)
 	defer fileObj.Close()
 
-	_, err := fileObj.Write(data)
+	if err != nil {
+		return err
+	}
+
+	_, err = fileObj.Write(data)
 
 	if err != nil {
-		fmt.Printf("WriteFile: error writing file %s\n", file)
+		return ErrWriteFile
 	}
+
+	return nil
 }
 
 /*
