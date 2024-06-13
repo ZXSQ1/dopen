@@ -23,7 +23,7 @@ func IsExists(file string) bool {
 description: checks if the file is a directory
 arguments:
 
-  file: the file path to check for existence
+  file: the file path to check for
 
 return: true if it is a directory and false otherwise
 */
@@ -36,6 +36,14 @@ func IsDir(file string) bool {
   return stat.IsDir()
 }
 
+/*
+description: checks if the file is a file
+arguments:
+
+  file: the file path to check for
+
+return: true if it is a file and false otherwise
+*/
 func IsFile(file string) bool {
   return !IsDir(file)
 }
