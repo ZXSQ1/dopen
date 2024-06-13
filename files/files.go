@@ -12,11 +12,6 @@ var ErrNotExist error = fmt.Errorf("file not exists")
 var ErrNotFile error = fmt.Errorf("path not file")
 var ErrNotDir error = fmt.Errorf("path not dir")
 
-var ErrOpenFile error = fmt.Errorf("error opening file")
-var ErrCreateFile error = fmt.Errorf("error creating file")
-var ErrWriteFile error = fmt.Errorf("error writing file")
-var ErrReadFile error = fmt.Errorf("error reading file")
-
 ////////
 
 /*
@@ -90,7 +85,7 @@ func GetFile(file string) (result *os.File, retErr error) {
 		fileObj, err := os.Open(file)
 
 		if err != nil {
-			return nil, ErrOpenFile
+			return nil, err
 		}
 
 		result = fileObj
@@ -98,7 +93,7 @@ func GetFile(file string) (result *os.File, retErr error) {
 		fileObj, err := os.Create(file)
 
 		if err != nil {
-			return nil, ErrCreateFile
+			return nil, err
 		}
 
 		result = fileObj
@@ -129,7 +124,7 @@ func WriteFile(file string, data []byte) error {
 	_, err = fileObj.Write(data)
 
 	if err != nil {
-		return ErrWriteFile
+		return err
 	}
 
 	return nil
@@ -141,10 +136,17 @@ arguments:
 
 	file: the file to read from
 
-return: the read bytes
+return:
+	- the read bytes
+	- an error if anything goes wrong
 */
-func ReadFile(file string) (result []byte) {
-	fileObj := GetFile(file)
+func ReadFile(file string) (result []byte, retErr error) {
+	fileObj, err := GetFile(file)
+
+	if err != nil {
+		return nil, err
+	}
+
 	defer fileObj.Close()
 
 	buffer := make([]byte, 1024)
@@ -158,7 +160,7 @@ func ReadFile(file string) (result []byte) {
 				break
 			}
 
-			fmt.Printf("ReadFile: %s\n", err.Error())
+			return nil, err
 		}
 	}
 
