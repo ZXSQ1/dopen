@@ -28,14 +28,11 @@ func GetLanguage(name string) Language {
 
 /*
 description: gets the documentation entries of the language
-arguments:
-
-	language: the language to get the documentation for
-
+arguments: uses the fields in the Language structure
 return: a string containing the unfiltered documentation entries
 */
-func GetLanguageDocs(language string) string {
-	getDocsCMD := exec.Command("dedoc", "search", language)
+func (lang *Language) FetchDocs() {
+	getDocsCMD := exec.Command("dedoc", "search", lang.name)
 	getDocsCMD.Stderr = os.Stderr
 	getDocsCMD.Stdin = os.Stdin
 
@@ -45,7 +42,7 @@ func GetLanguageDocs(language string) string {
 		log.Fatalln("GetLanguageDocs: error getting language documentation")
 	}
 
-	return string(out)
+	lang.docs = string(out)
 }
 
 /*
