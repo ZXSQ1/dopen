@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type Language struct {
+type DocsManager struct {
 	name       string
 	docs       string
 	chosenDoc  string
@@ -16,15 +16,15 @@ type Language struct {
 }
 
 /*
-description: gets an instance of the Language type
+description: gets an instance of the DocsManager type
 arguments:
 
 	name: the name of the language
 
-return: the language object with the language name
+return: the DocsManager object with the language name
 */
-func GetLanguage(name string) Language {
-	return Language{
+func GetDocsManager(name string) DocsManager {
+	return DocsManager{
 		name:       name,
 		isFiltered: false,
 		isFetched:  false,
@@ -33,11 +33,11 @@ func GetLanguage(name string) Language {
 
 /*
 description: gets the documentation entries of the language
-arguments: uses the fields in the Language structure
-return: a string containing the unfiltered documentation entries; stored in the Language structure
+arguments: uses the fields in the DocsManager structure
+return: a string containing the unfiltered documentation entries; stored in the DocsManager structure
 */
-func (lang *Language) FetchDocs() {
-	getDocsCMD := exec.Command("dedoc", "search", lang.name)
+func (docManeger *DocsManager) FetchDocs() {
+	getDocsCMD := exec.Command("dedoc", "search", docManeger.name)
 	getDocsCMD.Stderr = os.Stderr
 	getDocsCMD.Stdin = os.Stdin
 
@@ -47,21 +47,21 @@ func (lang *Language) FetchDocs() {
 		fmt.Println("FetchDocs: error getting language documentation")
 	}
 
-	lang.docs = string(out)
-	lang.isFetched = true
+	docManeger.docs = string(out)
+	docManeger.isFetched = true
 }
 
 /*
 description: filters the language documentation
-arguments: uses the fields in the Language structure
-return: the filtered string documentation; stored in the Language structure
+arguments: uses the fields in the DocsManager structure
+return: the filtered string documentation; stored in the DocsManager structure
 */
-func (lang *Language) FilterDocs() {
-	if lang.isFiltered || !lang.isFetched {
+func (docManeger *DocsManager) FilterDocs() {
+	if docManeger.isFiltered || !docManeger.isFetched {
 		return
 	}
 
-	unfilteredDocs := strings.ReplaceAll(lang.docs, "\t", " ")
+	unfilteredDocs := strings.ReplaceAll(docManeger.docs, "\t", " ")
 
 	result := ""
 	parent := ""
@@ -81,17 +81,17 @@ func (lang *Language) FilterDocs() {
 		}
 	}
 
-	lang.docs = result
-	lang.isFiltered = true
+	docManeger.docs = result
+	docManeger.isFiltered = true
 }
 
 /*
 description: allows the user to choose docs
-arguments: the fields in the Language structure
-return: the chosen doc is returned and stored in the Language structure
+arguments: the fields in the DocsManager structure
+return: the chosen doc is returned and stored in the DocsManager structure
 */
-func (lang *Language) ChooseDocs() {
-	if !lang.isFiltered || !lang.isFetched {
+func (docManeger *DocsManager) ChooseDocs() {
+	if !docManeger.isFiltered || !docManeger.isFetched {
 		return
 	}
 
@@ -107,5 +107,5 @@ func (lang *Language) ChooseDocs() {
 	}
 
 	out, _ := cmd.Output()
-	lang.chosenDoc = string(out)
+	docManeger.chosenDoc = string(out)
 }
