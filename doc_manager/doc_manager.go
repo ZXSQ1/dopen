@@ -5,6 +5,9 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/ZXSQ1/devdocs-tui/files"
+	"github.com/ZXSQ1/devdocs-tui/utils"
 )
 
 // Errors
@@ -15,8 +18,8 @@ var ErrNotFiltered error = fmt.Errorf("documentation entries not filtered")
 /////
 
 type DocsManager struct {
-	name    string
-	docFile string
+	languageName string
+	docFile      string
 }
 
 /*
@@ -27,9 +30,18 @@ arguments:
 
 return: the DocsManager object with the language name
 */
-func GetDocsManager(name string) DocsManager {
+func GetDocsManager(languageName string) DocsManager {
+	var home = utils.GetEnvironVar("HOME")
+	var docDir = home + "/.cache/devdocs-tui"
+	var docFile = docDir + "/" + languageName
+
+	if !files.IsExists(docDir) {
+		os.MkdirAll(docDir, 0644)
+	}
+
 	return DocsManager{
-		name: name,
+		languageName: languageName,
+		docFile: docFile,
 	}
 }
 
@@ -38,8 +50,8 @@ description: gets the documentation entries of the language
 arguments: uses the fields in the DocsManager structure
 return: a string containing the unfiltered documentation entries; stored in the DocsManager file
 */
-func (docManeger *DocsManager) FetchDocs() {
-	getDocsCMD := exec.Command("dedoc", "search", docManeger.name)
+func (docManager *DocsManager) FetchDocs() {
+	getDocsCMD := exec.Command("dedoc", "search", docManager.name)
 	getDocsCMD.Stderr = os.Stderr
 	getDocsCMD.Stdin = os.Stdin
 
@@ -49,8 +61,8 @@ func (docManeger *DocsManager) FetchDocs() {
 		fmt.Println("FetchDocs: error getting language documentation")
 	}
 
-	docManeger.docs = string(out)
-	docManeger.isFetched = true
+	docManager.docs = string(out)
+	docManager.isFetched = true
 }
 
 /*
@@ -58,12 +70,12 @@ description: filters the language documentation
 arguments: uses the fields in the DocsManager structure
 return: the filtered string documentation; stored in the DocsManager structure
 */
-func (docManeger *DocsManager) FilterDocs() {
-	if docManeger.isFiltered || !docManeger.isFetched {
+func (docManager *DocsManager) FilterDocs() {
+	if docManager.isFiltered || !docManager.isFetched {
 		return
 	}
 
-	unfilteredDocs := strings.ReplaceAll(docManeger.docs, "\t", " ")
+	unfilteredDocs := strings.ReplaceAll(docManager.docs, "\t", " ")
 
 	result := ""
 	parent := ""
@@ -83,8 +95,8 @@ func (docManeger *DocsManager) FilterDocs() {
 		}
 	}
 
-	docManeger.docs = result
-	docManeger.isFiltered = true
+	docManager.docs = result
+	docManager.isFiltered = true
 }
 
 /*
@@ -92,8 +104,8 @@ description: allows the user to choose docs
 arguments: the fields in the DocsManager structure
 return: the chosen doc is returned and stored in the DocsManager structure
 */
-func (docManeger *DocsManager) ChooseDocs() {
-	if !docManeger.isFiltered || !docManeger.isFetched {
+func (docManager *DocsManager) ChooseDocs() {
+	if !docManager.isFiltered || !docManager.isFetched {
 		return
 	}
 
@@ -109,5 +121,5 @@ func (docManeger *DocsManager) ChooseDocs() {
 	}
 
 	out, _ := cmd.Output()
-	docManeger.chosenDoc = string(out)
+	docManager.chosenDoc = string(out)
 }
