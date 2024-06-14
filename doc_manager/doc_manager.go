@@ -7,12 +7,16 @@ import (
 	"strings"
 )
 
+// Errors
+
+var ErrNotFetched error = fmt.Errorf("documentation entries not fetched")
+var ErrNotFiltered error = fmt.Errorf("documentation entries not filtered")
+
+/////
+
 type DocsManager struct {
-	name       string
-	docs       string
-	chosenDoc  string
-	isFetched  bool
-	isFiltered bool
+	name    string
+	docFile string
 }
 
 /*
@@ -25,9 +29,7 @@ return: the DocsManager object with the language name
 */
 func GetDocsManager(name string) DocsManager {
 	return DocsManager{
-		name:       name,
-		isFiltered: false,
-		isFetched:  false,
+		name: name,
 	}
 }
 
