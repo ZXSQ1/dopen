@@ -36,7 +36,7 @@ func GetDocsManager(name string) DocsManager {
 /*
 description: gets the documentation entries of the language
 arguments: uses the fields in the DocsManager structure
-return: a string containing the unfiltered documentation entries; stored in the DocsManager structure
+return: a string containing the unfiltered documentation entries; stored in the DocsManager file
 */
 func (docManeger *DocsManager) FetchDocs() {
 	getDocsCMD := exec.Command("dedoc", "search", docManeger.name)
