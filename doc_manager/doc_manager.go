@@ -101,28 +101,3 @@ func (docManager *DocsManager) FilterDocs() error {
 
 	return files.WriteFile(docManager.docFile, []byte(result)) 
 }
-
-/*
-description: allows the user to choose docs
-arguments: the fields in the DocsManager structure
-return: the chosen doc is returned and stored in the DocsManager structure
-*/
-func (docManager *DocsManager) ChooseDocs() {
-	if !docManager.isFiltered || !docManager.isFetched {
-		return
-	}
-
-	cmd := exec.Command("bash", "-c", "fzf > .tmp && echo $(cat .tmp) && rm .tmp")
-	cmd.Stdout = os.Stdout
-	cmd.Stdin = os.Stdin
-	cmd.Stderr = os.Stderr
-
-	err := cmd.Run()
-
-	if err != nil {
-		fmt.Println("ChooseDocs: error choosing documentation entry")
-	}
-
-	out, _ := cmd.Output()
-	docManager.chosenDoc = string(out)
-}
