@@ -41,7 +41,7 @@ func GetDocsManager(languageName string) DocsManager {
 
 	return DocsManager{
 		languageName: languageName,
-		docFile: docFile,
+		docFile:      docFile,
 	}
 }
 
@@ -50,19 +50,20 @@ description: gets the documentation entries of the language
 arguments: uses the fields in the DocsManager structure
 return: a string containing the unfiltered documentation entries; stored in the DocsManager file
 */
-func (docManager *DocsManager) FetchDocs() {
-	getDocsCMD := exec.Command("dedoc", "search", docManager.name)
+func (docManager *DocsManager) FetchDocs() error {
+	getDocsCMD := exec.Command("dedoc", "search", docManager.languageName)
 	getDocsCMD.Stderr = os.Stderr
 	getDocsCMD.Stdin = os.Stdin
 
 	out, err := getDocsCMD.Output()
 
 	if err != nil {
-		fmt.Println("FetchDocs: error getting language documentation")
+		return err
 	}
 
-	docManager.docs = string(out)
-	docManager.isFetched = true
+	files.WriteFile(docManager.docFile, out)
+
+	return nil
 }
 
 /*
