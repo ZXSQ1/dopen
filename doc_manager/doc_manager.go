@@ -18,8 +18,8 @@ var ErrNotFiltered error = fmt.Errorf("documentation entries not filtered")
 /////
 
 type DocsManager struct {
-	languageName string
-	docFile      string
+	languageName string	// the name of the language to operate on
+	docFile      string	// the path to the file to write documentation entries to
 }
 
 /*
