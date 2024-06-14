@@ -1,5 +1,7 @@
+package doc_manager
+
 import (
-	"log"
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
