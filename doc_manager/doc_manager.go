@@ -69,14 +69,17 @@ func (docManager *DocsManager) FetchDocs() error {
 /*
 description: filters the language documentation
 arguments: uses the fields in the DocsManager structure
-return: the filtered string documentation; stored in the DocsManager structure
+return: the filtered string documentation; stored in the DocsManager file
 */
-func (docManager *DocsManager) FilterDocs() {
-	if docManager.isFiltered || !docManager.isFetched {
-		return
+func (docManager *DocsManager) FilterDocs() error {
+	out, _ := files.ReadFile(docManager.docFile); 
+	docs := string(out)
+
+	if len(docs) < 1 {
+		return ErrNotFetched
 	}
 
-	unfilteredDocs := strings.ReplaceAll(docManager.docs, "\t", " ")
+	unfilteredDocs := strings.ReplaceAll(docs, "\t", " ")
 
 	result := ""
 	parent := ""
@@ -96,8 +99,7 @@ func (docManager *DocsManager) FilterDocs() {
 		}
 	}
 
-	docManager.docs = result
-	docManager.isFiltered = true
+	return files.WriteFile(docManager.docFile, []byte(result)) 
 }
 
 /*
