@@ -1,5 +1,7 @@
 package argp
 
+import "slices"
+
 type OptionHandler func(...string)
 
 type ArgParser struct {
@@ -41,8 +43,10 @@ func (argParser *ArgParser) HandleArgs(options []string, fn OptionHandler, argLe
 
 /*
 description: executes the options' handlers (executes after HandleArgs)
+arguments:
+return: a slice of string arguments filtered from the options
 */
-func (argParser *ArgParser) Execute() {
+func (argParser *ArgParser) Execute() []string {
 	args := argParser.args
 	optionHandlers := argParser.optionHandlers
 	optionArgLength := argParser.optionArgLength
@@ -52,12 +56,18 @@ func (argParser *ArgParser) Execute() {
 			fn := optionHandlers[arg]
 			argLen := optionArgLength[arg]
 
+			start := argPos + 1
+			end := uint(start) + argLen
+
 			if argLen != 0 {
-				fn(args[argPos : uint(argPos)+argLen]...)
-				
+				fn(args[start:end]...)
+				args = slices.Delete(args, int(start), int(end))
 			} else {
 				fn([]string{}...)
+				args = slices.Delete(args, int(start), int(end)+1)
 			}
 		}
 	}
+
+	return args
 }
