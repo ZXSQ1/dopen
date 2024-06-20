@@ -30,19 +30,3 @@ func GetEnvironVar(environVarName string) string {
 	return ""
 }
 
-/*
-description: excludes elements (from start until end) from a slice
-arguments:
-	slice: the slice to exclude from
-	start: the starting index of the exclusion (inclusive)
-	end: the ending index of the exclusion (exclusive)
-retunr: the excluded from slice
-*/
-func ExcludeSliceElements(slice []any, start, end uint) []any {
-	var result []any
-
-	result = append(result, slice[:start + 1]...)
-	result = append(result, slice[end:]...)
-
-	return result
-}
