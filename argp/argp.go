@@ -1,8 +1,10 @@
 package argp
 
+type OptionHandler func(...string)
+
 type ArgParser struct {
 	args           []string // program arguments
-	optionHandlers map[string]func(...[]string) // option handlers
+	optionHandlers map[string]OptionHandler // option handlers
 }
 
 /*
