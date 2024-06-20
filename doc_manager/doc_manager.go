@@ -47,8 +47,8 @@ func GetDocsManager(languageName string) DocsManager {
 
 /*
 description: gets the documentation entries of the language
-arguments: uses the fields in the DocsManager structure
-return: a string containing the unfiltered documentation entries; stored in the DocsManager file
+arguments:
+return: an error
 */
 func (docManager *DocsManager) FetchDocs() error {
 	getDocsCMD := exec.Command("dedoc", "search", docManager.languageName)
@@ -68,8 +68,8 @@ func (docManager *DocsManager) FetchDocs() error {
 
 /*
 description: filters the language documentation
-arguments: uses the fields in the DocsManager structure
-return: the filtered string documentation; stored in the DocsManager file
+arguments:
+return: an error
 */
 func (docManager *DocsManager) FilterDocs() error {
 	out, _ := files.ReadFile(docManager.docFile); 
