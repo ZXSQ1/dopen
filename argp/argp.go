@@ -38,3 +38,26 @@ func (argParser *ArgParser) HandleArgs(options []string, fn OptionHandler, argLe
 		argParser.optionArgLength[option] = argLength
 	}
 }
+
+/*
+description: executes the options' handlers (executes after HandleArgs)
+*/
+func (argParser *ArgParser) Execute() {
+	args := argParser.args
+	optionHandlers := argParser.optionHandlers
+	optionArgLength := argParser.optionArgLength
+
+	for argPos, arg := range args {
+		if _, found := optionHandlers[arg]; found {
+			fn := optionHandlers[arg]
+			argLen := optionArgLength[arg]
+
+			if argLen != 0 {
+				fn(args[argPos : uint(argPos)+argLen]...)
+				
+			} else {
+				fn([]string{}...)
+			}
+		}
+	}
+}
