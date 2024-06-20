@@ -21,3 +21,20 @@ func GetArgParser(args []string) ArgParser {
 		args: args,
 	}
 }
+
+/*
+description: assigns option handlers to specified arguments
+arguments:
+
+	args: a string slice containing the arguments to handle
+	fn: the option handler function of the OptionHandler type
+	argLength: the number of arguments that go after a specified option
+
+return:
+*/
+func (argParser *ArgParser) HandleArg(args []string, fn OptionHandler, argLength uint) {
+	for _, option := range args {
+		argParser.optionHandlers[option] = fn
+		argParser.optionArgLength[option] = argLength
+	}
+}
