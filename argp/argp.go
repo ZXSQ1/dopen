@@ -21,6 +21,8 @@ return: an ArgParser object
 func GetArgParser(args []string) ArgParser {
 	return ArgParser{
 		args: args,
+		optionHandlers: map[string]OptionHandler{},
+		optionArgLength: map[string]uint{},
 	}
 }
 
