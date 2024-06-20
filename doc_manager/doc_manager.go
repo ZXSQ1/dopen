@@ -101,3 +101,15 @@ func (docManager *DocsManager) FilterDocs() error {
 
 	return files.WriteFile(docManager.docFile, []byte(result)) 
 }
+
+/*
+description: caches the documentation concurrently
+arguments:
+return:
+*/
+func (docManager *DocsManager) CacheDocs() {
+	go func() {
+		docManager.FetchDocs()
+		docManager.FilterDocs()
+	}
+}
