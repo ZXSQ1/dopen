@@ -111,5 +111,5 @@ func (docManager *DocsManager) CacheDocs() {
 	go func() {
 		docManager.FetchDocs()
 		docManager.FilterDocs()
-	}
+	}()
 }
