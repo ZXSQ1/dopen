@@ -18,8 +18,8 @@ var ErrNotFiltered error = fmt.Errorf("documentation entries not filtered")
 /////
 
 type DocsManager struct {
-	languageName string	// the name of the language to operate on
-	docFile      string	// the path to the file to write documentation entries to
+	languageName string // the name of the language to operate on
+	docFile      string // the path to the file to write documentation entries to
 }
 
 /*
@@ -72,7 +72,7 @@ arguments:
 return: an error
 */
 func (docManager *DocsManager) FilterDocs() error {
-	out, _ := files.ReadFile(docManager.docFile); 
+	out, _ := files.ReadFile(docManager.docFile)
 	docs := string(out)
 
 	if len(docs) < 1 {
@@ -99,7 +99,7 @@ func (docManager *DocsManager) FilterDocs() error {
 		}
 	}
 
-	return files.WriteFile(docManager.docFile, []byte(result)) 
+	return files.WriteFile(docManager.docFile, []byte(result))
 }
 
 /*
