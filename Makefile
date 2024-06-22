@@ -1,9 +1,9 @@
 
-BIN = devdocs-tui
+BIN = dopen
 COMPILE = go build
 
 $(BIN):
-	$(COMPILE) -o $(BIN) *.go
+	$(COMPILE) -o $(BIN) *.go */*.go
 
 clean:
 	rm -rf $(BIN)
