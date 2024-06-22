@@ -38,7 +38,8 @@ func main() {
 				docManager.FilterDocs()
 			}
 
-			// open doc function
+			docManager.OpenDocs()
+			docManager.CacheDocs()
 		}
 	}
 }
