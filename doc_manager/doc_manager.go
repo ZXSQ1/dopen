@@ -92,11 +92,22 @@ arguments:
 return:
 */
 func (docManager *DocsManager) OpenDocs() {
-	proc := exec.Command("bash", "-c", "cat " + docManager.DocFile + " | pick | glow -p")
+	proc := exec.Command("bash", "-c", "cat " + docManager.DocFile + " | pick")
 
 	proc.Stdout = os.Stdout
 	proc.Stdin = os.Stdin
 	proc.Stdout = os.Stdout
+
+	proc.Run()
+
+	out, _ := proc.Output()
+	chosenDoc := docManager.filterDocs(string(out))
+
+	proc = exec.Command("bash", "-c", "dedoc open " + docManager.DocFile + " " + chosenDoc + " | glow -p")
+
+	proc.Stdout = os.Stdout
+	proc.Stdin = os.Stdin
+	proc.Stderr = os.Stderr
 
 	proc.Run()
 }
