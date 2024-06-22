@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 
 	"github.com/ZXSQ1/devdocs-tui/argp"
 	"github.com/ZXSQ1/devdocs-tui/doc_manager"
@@ -14,6 +15,8 @@ func help() {
 		options:
 			--help, -h 		for help
 	`
+
+	message = strings.ReplaceAll(message, "\t", " ")
 
 	println(message)
 	os.Exit(1)
