@@ -18,8 +18,8 @@ var ErrNotFiltered error = fmt.Errorf("documentation entries not filtered")
 /////
 
 type DocsManager struct {
-	languageName string // the name of the language to operate on
-	docFile      string // the path to the file to write documentation entries to
+	LanguageName string // the name of the language to operate on
+	DocFile      string // the path to the file to write documentation entries to
 }
 
 /*
@@ -40,8 +40,8 @@ func GetDocsManager(languageName string) DocsManager {
 	}
 
 	return DocsManager{
-		languageName: languageName,
-		docFile:      docFile,
+		LanguageName: languageName,
+		DocFile:      docFile,
 	}
 }
 
@@ -51,7 +51,7 @@ arguments:
 return: an error
 */
 func (docManager *DocsManager) FetchDocs() error {
-	getDocsCMD := exec.Command("dedoc", "search", docManager.languageName)
+	getDocsCMD := exec.Command("dedoc", "search", docManager.LanguageName)
 	getDocsCMD.Stderr = os.Stderr
 	getDocsCMD.Stdin = os.Stdin
 
@@ -61,7 +61,7 @@ func (docManager *DocsManager) FetchDocs() error {
 		return err
 	}
 
-	files.WriteFile(docManager.docFile, out)
+	files.WriteFile(docManager.DocFile, out)
 
 	return nil
 }
@@ -72,7 +72,7 @@ arguments:
 return: an error
 */
 func (docManager *DocsManager) FilterDocs() error {
-	out, _ := files.ReadFile(docManager.docFile)
+	out, _ := files.ReadFile(docManager.DocFile)
 	docs := string(out)
 
 	if len(docs) < 1 {
@@ -99,7 +99,7 @@ func (docManager *DocsManager) FilterDocs() error {
 		}
 	}
 
-	return files.WriteFile(docManager.docFile, []byte(result))
+	return files.WriteFile(docManager.DocFile, []byte(result))
 }
 
 /*
