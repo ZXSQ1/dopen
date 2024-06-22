@@ -68,38 +68,13 @@ func (docManager *DocsManager) FetchDocs() error {
 
 /*
 description: filters the language documentation
-arguments:
-return: an error
+arguments: the unfiltered entry done by opendocs
+return: a filtered string
 */
-func (docManager *DocsManager) FilterDocs() error {
-	out, _ := files.ReadFile(docManager.DocFile)
-	docs := string(out)
+func (docManager *DocsManager) filterDocs(docEntry string) string {
+	docEntryParts := strings.Split(docEntry, " ")
 
-	if len(docs) < 1 {
-		return ErrNotFetched
-	}
-
-	unfilteredDocs := strings.ReplaceAll(docs, "\t", " ")
-
-	result := ""
-	parent := ""
-	for _, line := range strings.Split(unfilteredDocs, "\n") {
-		if !strings.HasPrefix(line, " ") {
-			continue
-		}
-
-		words := strings.Split(line, " ")
-		entry := words[len(words)-1]
-
-		if strings.HasPrefix(entry, "#") {
-			result += parent + entry + "\n"
-		} else {
-			parent = entry
-			result += parent + "\n"
-		}
-	}
-
-	return files.WriteFile(docManager.DocFile, []byte(result))
+	return docEntryParts[len(docEntryParts) - 1]
 }
 
 /*
