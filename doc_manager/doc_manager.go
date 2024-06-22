@@ -74,6 +74,7 @@ arguments: the unfiltered entry done by opendocs
 return: a filtered string
 */
 func (docManager *DocsManager) filterDocs(docEntry string) string {
+	docEntry = strings.ReplaceAll(docEntry, "\t", " ")
 	docEntryParts := strings.Split(docEntry, " ")
 
 	return docEntryParts[len(docEntryParts) - 1]
@@ -105,7 +106,7 @@ func (docManager *DocsManager) OpenDocs() {
 	out, _ := proc.Output()
 	chosenDoc := docManager.filterDocs(string(out))
 
-	proc = exec.Command("bash", "-c", "dedoc open " + docManager.DocFile + " " + chosenDoc + " | glow -p")
+	proc = exec.Command("bash", "-c", "dedoc open " + docManager.LanguageName + " " + chosenDoc + " | glow -p")
 
 	proc.Stdout = os.Stdout
 	proc.Stdin = os.Stdin
