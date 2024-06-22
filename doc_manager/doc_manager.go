@@ -56,12 +56,14 @@ func (docManager *DocsManager) FetchDocs() error {
 	getDocsCMD.Stdin = os.Stdin
 
 	out, err := getDocsCMD.Output()
+	lines := strings.Split(string(out), "\n")
+	lines = lines[2:]
 
 	if err != nil {
 		return err
 	}
 
-	files.WriteFile(docManager.DocFile, out)
+	files.WriteFile(docManager.DocFile, []byte(strings.Join(lines, "\n")))
 
 	return nil
 }
