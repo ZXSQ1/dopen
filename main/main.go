@@ -25,7 +25,7 @@ func main() {
 	if len(argv) < 2 {
 		help()
 	} else {
-		argParser := argp.GetArgParser(argv)
+		argParser := argp.GetArgParser(argv[1:])
 
 		argParser.HandleArgs([]string{"-h", "--help"}, func(s ...string) { help() }, 0)
 		args := argParser.Execute()

@@ -32,11 +32,11 @@ return: the DocsManager object with the language name
 */
 func GetDocsManager(languageName string) DocsManager {
 	var home = utils.GetEnvironVar("HOME")
-	var docDir = home + "/.cache/devdocs-tui"
+	var docDir = home + "/.cache/dopen"
 	var docFile = docDir + "/" + languageName
 
 	if !files.IsExists(docDir) {
-		os.MkdirAll(docDir, 0644)
+		os.MkdirAll(docDir, 0744)
 	}
 
 	return DocsManager{
@@ -126,5 +126,5 @@ func (docManager *DocsManager) OpenDocs() {
 	proc.Stdin = os.Stdin
 	proc.Stdout = os.Stdout
 
-	proc.Start()
+	proc.Run()
 }
