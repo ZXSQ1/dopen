@@ -38,11 +38,15 @@ func TestArgParser_Execute(t *testing.T) {
 	argParser := GetArgParser(input)
 
 	argParser.HandleArgs([]string{"-b", "-d"}, func(s ...string) {
-		println("test 1 successful")
+		if !slices.Equal(s, []string{}) {
+			t.Fail()
+		}
 	}, 0)
 
 	argParser.HandleArgs([]string{"--hold"}, func(s ...string) {
-		println("test 2 successful")
+		if !slices.Equal(s, []string{"bash", "-c", "source ~/.bashrc; clear"}) {
+			t.Fail()
+		}
 	}, 3)
 
 	args := argParser.Execute()
@@ -51,7 +55,7 @@ func TestArgParser_Execute(t *testing.T) {
 		for _, value := range args {
 			println(value)
 		}
-		
+
 		t.Fail()
 	}
 }
