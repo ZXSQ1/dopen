@@ -35,7 +35,6 @@ func main() {
 
 			if !files.IsExists(docManager.DocFile) {
 				docManager.FetchDocs()
-				docManager.FilterDocs()
 			}
 
 			docManager.OpenDocs()
