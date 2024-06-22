@@ -113,3 +113,18 @@ func (docManager *DocsManager) CacheDocs() {
 		docManager.FilterDocs()
 	}()
 }
+
+/*
+description: opens the docs
+arguments:
+return:
+*/
+func (docManager *DocsManager) OpenDocs() {
+	proc := exec.Command("bash", "-c", "cat " + docManager.DocFile + " | pick | glow -p")
+
+	proc.Stdout = os.Stdout
+	proc.Stdin = os.Stdin
+	proc.Stdout = os.Stdout
+
+	proc.Start()
+}
