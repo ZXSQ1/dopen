@@ -83,10 +83,7 @@ arguments:
 return:
 */
 func (docManager *DocsManager) CacheDocs() {
-	go func() {
-		docManager.FetchDocs()
-		docManager.FilterDocs()
-	}()
+	go docManager.FetchDocs()
 }
 
 /*
