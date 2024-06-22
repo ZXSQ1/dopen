@@ -53,20 +53,25 @@ func (argParser *ArgParser) Execute() []string {
 	optionHandlers := argParser.optionHandlers
 	optionArgLength := argParser.optionArgLength
 
+resetLoop:
 	for argPos, arg := range args {
 		if _, found := optionHandlers[arg]; found {
 			fn := optionHandlers[arg]
 			argLen := optionArgLength[arg]
 
 			start := argPos + 1
-			end := uint(start) + argLen + 1
+			end := uint(start) + argLen
 
-			if argLen != 0 {
+			if argLen > 0 {
 				fn(args[start:end]...)
-				args = slices.Delete(args, int(start -1), int(end))
+				args = slices.Delete(args, argPos, int(end))
+
+				goto resetLoop
 			} else {
 				fn([]string{}...)
-				args = slices.Delete(args, int(start -1), int(end))
+				args = slices.Delete(args, argPos, start)
+
+				goto resetLoop
 			}
 		}
 	}
