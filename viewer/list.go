@@ -35,3 +35,20 @@ func ListDocs() map[string]int {
 
 	return result
 }
+
+/*
+description: lists the installed docs
+arguments:
+return: a slice of the installed docs
+*/
+func ListInstalledDocs() []string {
+	result := []string{}
+
+	for doc, status := range ListDocs() {
+		if status == docINSTALLED {
+			result = append(result, doc)
+		}
+	}
+
+	return result
+}
