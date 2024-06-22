@@ -32,3 +32,26 @@ func TestArgParser_HandleArgs(t *testing.T) {
 	}
 
 }
+
+func TestArgParser_Execute(t *testing.T) {
+	input := []string{"kitty", "-d", "-b", "--hold", "bash", "-c", "source ~/.bashrc; clear"}
+	argParser := GetArgParser(input)
+
+	argParser.HandleArgs([]string{"-b", "-d"}, func(s ...string) {
+		println("test 1 successful")
+	}, 0)
+
+	argParser.HandleArgs([]string{"--hold"}, func(s ...string) {
+		println("test 2 successful")
+	}, 3)
+
+	args := argParser.Execute()
+
+	if !slices.Equal(args, []string{"kitty"}) {
+		for _, value := range args {
+			println(value)
+		}
+		
+		t.Fail()
+	}
+}

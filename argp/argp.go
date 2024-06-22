@@ -59,14 +59,14 @@ func (argParser *ArgParser) Execute() []string {
 			argLen := optionArgLength[arg]
 
 			start := argPos + 1
-			end := uint(start) + argLen
+			end := uint(start) + argLen + 1
 
 			if argLen != 0 {
 				fn(args[start:end]...)
-				args = slices.Delete(args, int(start), int(end))
+				args = slices.Delete(args, int(start -1), int(end))
 			} else {
 				fn([]string{}...)
-				args = slices.Delete(args, int(start), int(end)+1)
+				args = slices.Delete(args, int(start -1), int(end))
 			}
 		}
 	}
