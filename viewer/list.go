@@ -10,6 +10,11 @@ const (
 	docNOTINSTALLED = 1
 )
 
+/*
+description: lists the docs (whether installed or not installed)
+arguments:
+return: a map of the docs and an integer status specifying whether it is installed or not
+*/
 func ListDocs() map[string]int {
 	result := map[string]int{}
 	proc := exec.Command("dedoc", "list")
