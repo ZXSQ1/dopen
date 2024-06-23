@@ -2,6 +2,9 @@ package doc_manager
 
 import (
 	"os"
+	"os/exec"
+	"slices"
+	"strings"
 	"testing"
 
 	"github.com/ZXSQ1/devdocs-tui/files"
@@ -35,5 +38,30 @@ func TestInit(t *testing.T) {
 		}
 
 		Init(language)
+	}
+}
+
+func TestFetchRawDocs(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	language := "go"
+
+	err := FetchRawDocs(language)
+
+	if err != nil {
+		Init(language)
+		FetchRawDocs(language)
+	}
+
+	proc := exec.Command("dedoc", "search", language)
+	
+	expectedOut, _ := proc.Output()
+	expectedOut = []byte(strings.Join(strings.Split(string(expectedOut), "\n")[2:], "\n"))
+	actualOut, _ := files.ReadFile(GetLanguageDir(language) + "/" + language + asyncExt + rawExt)
+
+	if !slices.Equal(expectedOut, actualOut) {
+		t.Fail()
 	}
 }
