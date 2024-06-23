@@ -22,6 +22,10 @@ var (
 	tempDir = rootDir + "/.temp"
 )
 
+func GetLanguageDir(language string) string {
+	return rootDir + "/" + language
+}
+
 func Init(language string) {
 	languageDir := rootDir + "/" + language
 
