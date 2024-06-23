@@ -181,9 +181,9 @@ func OpenDocs(language string) {
 
 	// dedoc open
 
+	proc = exec.Command("dedoc", "open", language, string(messenger.Message))
 	messenger.Message = []byte{}
 
-	proc = exec.Command("dedoc", "open", language, string(messenger.Message))
 	proc.Stdout = messenger
 	proc.Stderr = os.Stderr
 
