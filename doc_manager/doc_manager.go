@@ -96,3 +96,26 @@ func IndexDocs(language string) error {
 
 	return files.WriteFile(languageDir+"/"+language+asyncExt+indexExt, []byte(result))
 }
+
+func CacheDocs(language string) error {
+	languageDir := GetLanguageDir(language)
+
+	asyncRawPath := languageDir + "/" + language + asyncExt + rawExt
+	rawPath := languageDir + "/" + language + rawExt
+	asyncIndexPath := languageDir + "/" + language + asyncExt + indexExt
+	indexPath := languageDir + "/" + language + indexExt
+
+	err := os.Rename(asyncIndexPath, indexPath)
+
+	if err != nil {
+		return err
+	}
+
+	err = os.Rename(asyncRawPath, rawPath)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
