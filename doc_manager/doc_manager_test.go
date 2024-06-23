@@ -116,3 +116,26 @@ func TestCacheDocs(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestSearchDocs(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	language := "go"
+
+	Init(language)
+	FetchRawDocs(language)
+	IndexDocs(language)
+	CacheDocs(language)
+
+	if SearchDocs(language, "#StringData") != "unsafe/index#StringData" {
+		t.Fail()
+	}
+
+	language = "rust"
+
+	if SearchDocs(language, "#StringData") != "doc not found" {
+		t.Fail()
+	}
+}
