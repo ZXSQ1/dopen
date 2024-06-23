@@ -155,3 +155,13 @@ func TestPrepareDocs(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestOpenDocs(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	language := "go"
+
+	OpenDocs(language)
+}
