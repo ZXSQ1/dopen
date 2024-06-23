@@ -1,7 +1,6 @@
 package docmanager
 
 import (
-	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -21,11 +20,6 @@ const (
 var (
 	rootDir = utils.GetEnvironVar("HOME") + "/.cache/" + rootDirName
 	tempDir = rootDir + "/.temp"
-
-// Errors
-
-	ErrRootDirNotInitialized = fmt.Errorf("root dir not initialized")
-	ErrRawDocsNotFetched = fmt.Errorf("raw docs not fetched")
 )
 
 func GetLanguageDir(language string) string {
@@ -51,10 +45,6 @@ func Init(language string) {
 func FetchRawDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
-	if !files.IsExists(languageDir) {
-		return ErrRootDirNotInitialized
-	}
-
 	proc := exec.Command("dedoc", "search", language)
 	proc.Stderr = os.Stderr
 	proc.Stdin = os.Stdin
@@ -68,7 +58,7 @@ func FetchRawDocs(language string) error {
 	strOut := string(out)
 	strOut = strings.Join(strings.Split(strOut, "\n")[2:], "\n")
 
-	return files.WriteFile(languageDir + "/" + language + ".raw", []byte(strOut))
+	return files.WriteFile(languageDir+"/"+language+rawExt, []byte(strOut))
 }
 
 func FilterDocEntry(entry string) []string {
@@ -76,7 +66,7 @@ func FilterDocEntry(entry string) []string {
 	entryParts := strings.Split(entry, " ")
 
 	entryNumber := entryParts[0]
-	entryName := entryParts[len(entryParts) - 1]
+	entryName := entryParts[len(entryParts)-1]
 
 	return []string{entryNumber, entryName}
 }
