@@ -65,3 +65,18 @@ func TestFetchRawDocs(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestFilterDocEntry(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	docEntry := "      29603  #method.write_vectored   "
+	docEntryParts := FilterDocEntry(docEntry)
+	docNumber := docEntryParts[0]
+	docName := docEntryParts[1]
+
+	if docNumber != "29603" || docName != "#method.write_vectored" {
+		t.Fail()
+	}
+}
