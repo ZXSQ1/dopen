@@ -46,6 +46,6 @@ return:
   - an error object
 */
 func (messenger *Messenger) Write(p []byte) (n int, err error) {
-	messenger.Message = p
+	messenger.Message = append(messenger.Message, p...)
 	return len(p), nil
 }
