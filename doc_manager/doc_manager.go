@@ -1,6 +1,7 @@
 package docmanager
 
 import (
+	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -136,4 +137,68 @@ func SearchDocs(language, docEntryName string) (fullDocEntryName string) {
 	}
 
 	return "doc not found"
+}
+
+func PrepareDocs(language string) {
+	languageDir := GetLanguageDir(language)
+
+	if !files.IsExists(languageDir + "/" + language + rawExt) {
+		Init(language)
+		FetchRawDocs(language)
+		IndexDocs(language)
+	}
+
+	CacheDocs(language)
+
+	go func() {
+		FetchRawDocs(language)
+		IndexDocs(language)
+	}()
+}
+
+func OpenDocs(language string) {
+	languageDir := GetLanguageDir(language)
+
+	PrepareDocs(language)
+
+	// pick
+
+	reader, writer := io.Pipe()
+	rawOut, _ := files.ReadFile(languageDir + "/" + language + rawExt)
+
+	go func() {
+		writer.Write(append(rawOut, '\n'))
+		writer.Close()
+	}()
+
+	proc := exec.Command("pick")
+
+	proc.Stdin = reader
+	proc.Stdout, _ = files.GetFile(tempDir + "/chosen")
+	proc.Stderr = os.Stderr
+
+	proc.Run()
+
+	// dedoc | glow -p
+
+	chosenOut, _ := files.ReadFile(tempDir + "/chosen")
+	chosen := string(chosenOut)
+	chosen = SearchDocs(language, FilterDocEntry(chosen)[1])
+
+	reader, writer = io.Pipe()
+
+	proc = exec.Command("dedoc", "open", language, chosen)
+	out, _ := proc.Output()
+
+	go func() {
+		writer.Write(out)
+		writer.Close()
+	}()
+
+	proc = exec.Command("glow", "-p")
+	proc.Stdin = reader
+	proc.Stdout = os.Stdout
+	proc.Stderr = os.Stderr
+
+	proc.Run()
 }
