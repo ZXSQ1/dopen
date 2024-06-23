@@ -66,3 +66,13 @@ func FetchRawDocs(language string) error {
 
 	return files.WriteFile(languageDir + "/" + language + ".raw", []byte(strOut))
 }
+
+func FilterDocEntry(entry string) []string {
+	entry = strings.TrimSpace(entry)
+	entryParts := strings.Split(entry, " ")
+
+	entryNumber := entryParts[0]
+	entryName := entryParts[len(entryParts) - 1]
+
+	return []string{entryNumber, entryName}
+}
