@@ -11,7 +11,6 @@ import (
 
 const (
 	rootDirName = "dopen"
-	columns     = "100"
 
 	asyncExt = ".async"
 	rawExt   = ".raw"
@@ -19,8 +18,9 @@ const (
 )
 
 var (
-	rootDir = utils.GetEnvironVar("HOME") + "/.cache/" + rootDirName
-	tempDir = rootDir + "/.temp"
+	rootDir     = utils.GetEnvironVar("HOME") + "/.cache/" + rootDirName
+	tempDir     = rootDir + "/.temp"
+	ColumnWidth = "100"
 )
 
 func GetLanguageDir(language string) string {
@@ -202,7 +202,7 @@ func OpenDocs(language string) {
 
 	files.WriteFile(tempFile, messenger.Message)
 
-	proc = exec.Command("glow", "-p", "-w", columns, tempFile)
+	proc = exec.Command("glow", "-p", "-w", ColumnWidth, tempFile)
 	proc.Stdin = os.Stderr
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
