@@ -31,3 +31,29 @@ func TestMessenger_Write(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMessenger_Read(t *testing.T) {
+	message := []byte("Hallo! Wie heiSSt du? Ich heiSSe *name*. This has been German.")
+	messenger := Messenger{}
+
+	messenger.Write(message)
+	result := make([]byte, len(message))
+	buffer := make([]byte, 5)
+
+skip:
+	for {
+		n, _ := messenger.Read(buffer)
+
+		if n == 0 {
+			break skip
+		}
+
+		result = append(result, buffer[:n]...)
+	}
+
+	print(string(result))
+
+	if !slices.Equal(result, message) {
+		t.Fail()
+	}
+}
