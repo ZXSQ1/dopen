@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ZXSQ1/devdocs-tui/files"
+	"github.com/ZXSQ1/dopen/files"
 )
 
 func TestGetLanguageDir(t *testing.T) {

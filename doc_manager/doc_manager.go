@@ -5,8 +5,8 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/ZXSQ1/devdocs-tui/files"
-	"github.com/ZXSQ1/devdocs-tui/utils"
+	"github.com/ZXSQ1/dopen/files"
+	"github.com/ZXSQ1/dopen/utils"
 )
 
 const (
