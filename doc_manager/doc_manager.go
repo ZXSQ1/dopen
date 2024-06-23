@@ -1,7 +1,6 @@
 package doc_manager
 
 import (
-	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -161,48 +160,39 @@ func OpenDocs(language string) {
 
 	PrepareDocs(language)
 
+	messenger := &utils.Messenger{}
+	out, _ := files.ReadFile(languageDir + "/" + language + rawExt)
+	messenger.Write(out)
+
 	// pick
 
-	reader, writer := io.Pipe()
-	rawOut, _ := files.ReadFile(languageDir + "/" + language + rawExt)
-
-	go func() {
-		writer.Write(append(rawOut, '\n'))
-		writer.Close()
-	}()
-
 	proc := exec.Command("pick")
-
-	proc.Stdin = reader
-	proc.Stdout, _ = files.GetFile(tempDir + "/chosen")
+	proc.Stdin = messenger
+	proc.Stdout = messenger
 	proc.Stderr = os.Stderr
 
 	proc.Run()
 
-	// dedoc | glow -p
+	// filter chosen doc
 
-	chosenOut, _ := files.ReadFile(tempDir + "/chosen")
-	chosen := string(chosenOut)
-	chosen = SearchDocs(language, FilterDocEntry(chosen)[1])
+	docEntryName := FilterDocEntry(string(messenger.Message))[1]
+	messenger.Message = []byte{}
+	messenger.Write([]byte(docEntryName))
 
-	reader, writer = io.Pipe()
+	// dedoc open
 
-	proc = exec.Command("dedoc", "open", language, chosen)
+	messenger.Message = []byte{}
+
+	proc = exec.Command("dedoc", "open", language, string(messenger.Message))
+	proc.Stdout = messenger
 	proc.Stderr = os.Stderr
 
-	out, err := proc.Output()
+	proc.Run()
 
-	if err != nil {
-		os.Exit(1)
-	}
-
-	go func() {
-		writer.Write(out)
-		writer.Close()
-	}()
+	// glow -p
 
 	proc = exec.Command("glow", "-p")
-	proc.Stdin = reader
+	proc.Stdin = messenger
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
 
