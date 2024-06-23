@@ -33,3 +33,18 @@ func GetEnvironVar(environVarName string) string {
 type Messenger struct {
 	message []byte
 }
+
+/*
+description: writes to the messenger
+arguments:
+
+	p: the byte slice to write
+
+return:
+  - the number of bytes written
+  - an error object
+*/
+func (messenger *Messenger) Write(p []byte) (n int, err error) {
+	messenger.message = p
+	return len(p), nil
+}
