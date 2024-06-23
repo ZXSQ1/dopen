@@ -48,7 +48,7 @@ func Init(language string) {
 	}
 }
 
-func FetchRawDocs(language string) {
+func FetchRawDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
 	proc := exec.Command("dedoc", "search", language)
@@ -64,5 +64,5 @@ func FetchRawDocs(language string) {
 	strOut := string(out)
 	strOut = strings.Join(strings.Split(strOut, "\n")[2:], "\n")
 
-	files.WriteFile(languageDir + "/" + language + ".raw", []byte(strOut))
+	return files.WriteFile(languageDir + "/" + language + ".raw", []byte(strOut))
 }
