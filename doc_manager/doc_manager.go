@@ -58,7 +58,7 @@ func FetchRawDocs(language string) error {
 	strOut := string(out)
 	strOut = strings.Join(strings.Split(strOut, "\n")[2:], "\n")
 
-	return files.WriteFile(languageDir+"/"+language+rawExt, []byte(strOut))
+	return files.WriteFile(languageDir+"/"+language+asyncExt+rawExt, []byte(strOut))
 }
 
 func FilterDocEntry(entry string) []string {
@@ -73,12 +73,12 @@ func FilterDocEntry(entry string) []string {
 
 func IndexDocs(language string) error {
 	languageDir := GetLanguageDir(language)
-	out, _ := files.ReadFile(languageDir + "/" + language + rawExt)
+	out, _ := files.ReadFile(languageDir + "/" + language + asyncExt + rawExt)
 	raw := string(out)
 
 	result := ""
 	parentCode := ""
-	
+
 	for _, entry := range strings.Split(raw, "\n") {
 		entryParts := FilterDocEntry(entry)
 		entryCode := entryParts[0]
@@ -94,5 +94,5 @@ func IndexDocs(language string) error {
 
 	result = strings.TrimSpace(result)
 
-	return files.WriteFile(languageDir + "/" + language + indexExt, []byte(result))
+	return files.WriteFile(languageDir+"/"+language+asyncExt+indexExt, []byte(result))
 }
