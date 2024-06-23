@@ -27,7 +27,7 @@ func GetLanguageDir(language string) string {
 }
 
 func Init(language string) {
-	languageDir := rootDir + "/" + language
+	languageDir := GetLanguageDir(language)
 
 	if !files.IsExists(rootDir) {
 		os.MkdirAll(rootDir, 0744)
@@ -43,7 +43,7 @@ func Init(language string) {
 }
 
 func FetchRawDocs(language string) {
-	languageDir := rootDir + "/" + language
+	languageDir := GetLanguageDir(language)
 
 	proc := exec.Command("dedoc", "search", language)
 	proc.Stderr = os.Stderr
