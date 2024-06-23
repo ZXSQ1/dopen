@@ -75,7 +75,7 @@ func FilterDocEntry(entry string) []string {
 func IndexDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 	out, _ := files.ReadFile(languageDir + "/" + language + asyncExt + rawExt)
-	raw := string(out)
+	raw := strings.Split()
 
 	result := ""
 	parentName := ""

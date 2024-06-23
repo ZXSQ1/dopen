@@ -80,3 +80,23 @@ func TestFilterDocEntry(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestIndexDocs(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	language := "go"
+
+	Init(language)
+	FetchRawDocs(language)
+	IndexDocs(language)
+
+	indexOut, _ := files.ReadFile(GetLanguageDir(language) + "/" + language + asyncExt + indexExt)
+
+	println(string(indexOut))
+
+	if len(indexOut) < 1 {
+		t.Fail()
+	}
+}
