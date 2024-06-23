@@ -38,3 +38,21 @@ func Init(language string) {
 	}
 }
 
+func FetchRawDocs(language string) {
+	languageDir := rootDir + "/" + language
+
+	proc := exec.Command("dedoc", "search", language)
+	proc.Stderr = os.Stderr
+	proc.Stdin = os.Stdin
+
+	out, err := proc.Output()
+
+	if err != nil {
+		os.Exit(1)
+	}
+
+	strOut := string(out)
+	strOut = strings.Join(strings.Split(strOut, "\n")[2:], "\n")
+
+	files.WriteFile(languageDir + "/" + language + ".raw", []byte(strOut))
+}
