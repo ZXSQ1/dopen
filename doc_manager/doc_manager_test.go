@@ -139,3 +139,19 @@ func TestSearchDocs(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestPrepareDocs(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	language := "rust"
+
+	PrepareDocs(language)
+
+	if !files.IsExists(rootDir) || !files.IsExists(tempDir) ||
+		!files.IsExists(GetLanguageDir(language)+"/"+language+indexExt) ||
+		!files.IsExists(GetLanguageDir(language)+"/"+language+rawExt) {
+		t.Fail()
+	}
+}
