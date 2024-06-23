@@ -1,4 +1,4 @@
-package docmanager
+package doc_manager
 
 import (
 	"io"
