@@ -77,18 +77,17 @@ func IndexDocs(language string) error {
 	raw := string(out)
 
 	result := ""
-	parentCode := ""
+	parentName := ""
 
 	for _, entry := range strings.Split(raw, "\n") {
 		entryParts := FilterDocEntry(entry)
-		entryCode := entryParts[0]
 		entryName := entryParts[1]
 
 		if strings.HasPrefix(entryName, "#") {
-			result = entryCode + " "
+			result = entryName + " "
 		} else {
-			parentCode = entryCode
-			result = "\n" + parentCode + " "
+			parentName = entryName
+			result = "\n" + parentName + " "
 		}
 	}
 
