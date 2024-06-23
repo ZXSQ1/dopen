@@ -30,3 +30,6 @@ func GetEnvironVar(environVarName string) string {
 	return ""
 }
 
+type Messenger struct {
+	message []byte
+}
