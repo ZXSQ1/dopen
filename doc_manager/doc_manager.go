@@ -11,6 +11,7 @@ import (
 
 const (
 	rootDirName = "dopen"
+	columns     = "100"
 
 	asyncExt = ".async"
 	rawExt   = ".raw"
@@ -176,13 +177,15 @@ func OpenDocs(language string) {
 	// filter chosen doc
 
 	docEntryName := FilterDocEntry(string(messenger.Message))[1]
-	messenger.Message = []byte{}
+	docEntryName = SearchDocs(language, docEntryName)
+
+	messenger = &utils.Messenger{}
 	messenger.Write([]byte(docEntryName))
 
 	// dedoc open
 
 	proc = exec.Command("dedoc", "open", language, string(messenger.Message))
-	messenger.Message = []byte{}
+	messenger = &utils.Messenger{}
 
 	proc.Stdout = messenger
 	proc.Stderr = os.Stderr
@@ -191,8 +194,16 @@ func OpenDocs(language string) {
 
 	// glow -p
 
-	proc = exec.Command("glow", "-p")
-	proc.Stdin = messenger
+	tempFile := tempDir + "/doc"
+
+	if files.IsExists(tempFile) {
+		os.Remove(tempFile)
+	}
+
+	files.WriteFile(tempFile, messenger.Message)
+
+	proc = exec.Command("glow", "-p", "-w", columns, tempFile)
+	proc.Stdin = os.Stderr
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
 
