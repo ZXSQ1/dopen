@@ -188,7 +188,13 @@ func OpenDocs(language string) {
 	reader, writer = io.Pipe()
 
 	proc = exec.Command("dedoc", "open", language, chosen)
-	out, _ := proc.Output()
+	proc.Stderr = os.Stderr
+
+	out, err := proc.Output()
+
+	if err != nil {
+		os.Exit(1)
+	}
 
 	go func() {
 		writer.Write(out)
