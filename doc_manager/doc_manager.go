@@ -1,6 +1,7 @@
 package docmanager
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"strings"
@@ -20,6 +21,11 @@ const (
 var (
 	rootDir = utils.GetEnvironVar("HOME") + "/.cache/" + rootDirName
 	tempDir = rootDir + "/.temp"
+
+// Errors
+
+	ErrRootDirNotInitialized = fmt.Errorf("root dir not initialized")
+	ErrRawDocsNotFetched = fmt.Errorf("raw docs not fetched")
 )
 
 func GetLanguageDir(language string) string {
