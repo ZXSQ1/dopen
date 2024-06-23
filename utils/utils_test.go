@@ -37,7 +37,7 @@ func TestMessenger_Read(t *testing.T) {
 	messenger := Messenger{}
 
 	messenger.Write(message)
-	result := make([]byte, len(message))
+	result := []byte{}
 	buffer := make([]byte, 5)
 
 skip:
