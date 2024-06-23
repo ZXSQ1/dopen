@@ -70,3 +70,29 @@ func FilterDocEntry(entry string) []string {
 
 	return []string{entryNumber, entryName}
 }
+
+func IndexDocs(language string) error {
+	languageDir := GetLanguageDir(language)
+	out, _ := files.ReadFile(languageDir + "/" + language + rawExt)
+	raw := string(out)
+
+	result := ""
+	parentCode := ""
+	
+	for _, entry := range strings.Split(raw, "\n") {
+		entryParts := FilterDocEntry(entry)
+		entryCode := entryParts[0]
+		entryName := entryParts[1]
+
+		if strings.HasPrefix(entryName, "#") {
+			result = entryCode + " "
+		} else {
+			parentCode = entryCode
+			result = "\n" + parentCode + " "
+		}
+	}
+
+	result = strings.TrimSpace(result)
+
+	return files.WriteFile(languageDir + "/" + language + indexExt, []byte(result))
+}
