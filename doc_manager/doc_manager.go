@@ -75,7 +75,7 @@ func FilterDocEntry(entry string) []string {
 func IndexDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 	out, _ := files.ReadFile(languageDir + "/" + language + asyncExt + rawExt)
-	raw := strings.Split()
+	raw := strings.TrimSpace(string(out))
 
 	result := ""
 	parentName := ""
@@ -85,10 +85,10 @@ func IndexDocs(language string) error {
 		entryName := entryParts[1]
 
 		if strings.HasPrefix(entryName, "#") {
-			result = entryName + " "
+			result = result + entryName + " "
 		} else {
 			parentName = entryName
-			result = "\n" + parentName + " "
+			result = result + "\n" + parentName + " "
 		}
 	}
 

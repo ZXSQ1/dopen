@@ -94,8 +94,6 @@ func TestIndexDocs(t *testing.T) {
 
 	indexOut, _ := files.ReadFile(GetLanguageDir(language) + "/" + language + asyncExt + indexExt)
 
-	println(string(indexOut))
-
 	if len(indexOut) < 1 {
 		t.Fail()
 	}
