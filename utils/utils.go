@@ -31,7 +31,8 @@ func GetEnvironVar(environVarName string) string {
 }
 
 type Messenger struct {
-	message []byte
+	Message  []byte
+	Position int
 }
 
 /*
@@ -45,6 +46,6 @@ return:
   - an error object
 */
 func (messenger *Messenger) Write(p []byte) (n int, err error) {
-	messenger.message = p
+	messenger.Message = p
 	return len(p), nil
 }
