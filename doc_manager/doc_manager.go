@@ -118,3 +118,22 @@ func CacheDocs(language string) error {
 
 	return nil
 }
+
+func SearchDocs(language, docEntryName string) (fullDocEntryName string) {
+	if !strings.HasPrefix(docEntryName, "#") {
+		return docEntryName
+	}
+
+	languageDir := GetLanguageDir(language)
+
+	indexOut, _ := files.ReadFile(languageDir + "/" + language + indexExt)
+	index := string(indexOut)
+
+	for _, line := range strings.Split(index, "\n") {
+		if strings.Contains(line, docEntryName) {
+			return strings.Split(line, " ")[0] + docEntryName
+		}
+	}
+
+	return "doc not found"
+}
