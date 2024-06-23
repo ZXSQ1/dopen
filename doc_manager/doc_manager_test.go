@@ -56,7 +56,7 @@ func TestFetchRawDocs(t *testing.T) {
 	}
 
 	proc := exec.Command("dedoc", "search", language)
-	
+
 	expectedOut, _ := proc.Output()
 	expectedOut = []byte(strings.Join(strings.Split(string(expectedOut), "\n")[2:], "\n"))
 	actualOut, _ := files.ReadFile(GetLanguageDir(language) + "/" + language + asyncExt + rawExt)
@@ -95,6 +95,24 @@ func TestIndexDocs(t *testing.T) {
 	indexOut, _ := files.ReadFile(GetLanguageDir(language) + "/" + language + asyncExt + indexExt)
 
 	if len(indexOut) < 1 {
+		t.Fail()
+	}
+}
+
+func TestCacheDocs(t *testing.T) {
+	t.Cleanup(func() {
+		os.RemoveAll(rootDir)
+	})
+
+	language := "rust"
+
+	Init(language)
+	FetchRawDocs(language)
+	IndexDocs(language)
+	CacheDocs(language)
+
+	if !files.IsExists(GetLanguageDir(language)+"/"+language+indexExt) ||
+		!files.IsExists(GetLanguageDir(language)+"/"+language+rawExt) {
 		t.Fail()
 	}
 }
