@@ -51,6 +51,10 @@ func Init(language string) {
 func FetchRawDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
+	if !files.IsExists(languageDir) {
+		return ErrRootDirNotInitialized
+	}
+
 	proc := exec.Command("dedoc", "search", language)
 	proc.Stderr = os.Stderr
 	proc.Stdin = os.Stdin
