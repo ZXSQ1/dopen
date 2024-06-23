@@ -3,10 +3,6 @@ package main
 import (
 	"os"
 	"strings"
-
-	"github.com/ZXSQ1/devdocs-tui/argp"
-	"github.com/ZXSQ1/devdocs-tui/doc_manager"
-	"github.com/ZXSQ1/devdocs-tui/files"
 )
 
 func help() {
@@ -22,26 +18,10 @@ func help() {
 	os.Exit(1)
 }
 
+func start() {
+
+}
+
 func main() {
-	argv := os.Args
-
-	if len(argv) < 2 {
-		help()
-	} else {
-		argParser := argp.GetArgParser(argv[1:])
-
-		argParser.HandleArgs([]string{"-h", "--help"}, func(s ...string) { help() }, 0)
-		args := argParser.Execute()
-
-		for _, language := range args {
-			docManager := doc_manager.GetDocsManager(language)
-
-			if !files.IsExists(docManager.DocFile) {
-				docManager.FetchDocs()
-			}
-
-			docManager.OpenDocs()
-			docManager.CacheDocs()
-		}
-	}
+	start()
 }
