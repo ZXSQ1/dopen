@@ -3,6 +3,8 @@ package main
 import (
 	"os"
 	"strings"
+
+	"github.com/ZXSQ1/dopen/doc_manager"
 )
 
 func help() {
@@ -18,10 +20,20 @@ func help() {
 	os.Exit(1)
 }
 
-func start() {
+func start(args []string) {
+	if len(args) < 2 {
+		help()
+	} else {
+		args = args[1:]
 
+		for _, arg := range args {
+			doc_manager.OpenDocs(arg)
+		}
+	}
 }
 
 func main() {
-	start()
+	argv := os.Args
+
+	start(argv)
 }
