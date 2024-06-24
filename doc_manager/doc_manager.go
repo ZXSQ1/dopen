@@ -139,6 +139,14 @@ func IndexDocs(language string) error {
 	return files.WriteFile(languageDir+"/"+language+asyncExt+indexExt, []byte(result))
 }
 
+/*
+description: caches the fetched raw and indexed docs
+arguments:
+
+	language: language to cache docs for
+
+return: an error
+*/
 func CacheDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
