@@ -62,6 +62,11 @@ resetLoop:
 			start := argPos + 1
 			end := uint(start) + argLen
 
+			if int(end) >= len(args) {
+				args = slices.Delete(args, argPos, len(args))
+				goto resetLoop
+			}
+
 			if argLen > 0 {
 				fn(args[start:end]...)
 				args = slices.Delete(args, argPos, int(end))
