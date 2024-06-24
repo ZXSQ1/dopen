@@ -106,6 +106,14 @@ func FilterDocEntry(entry string) []string {
 	return []string{entryNumber, entryName}
 }
 
+/*
+description: indexes the docs in a cache file
+arguments:
+
+	language: the language to indexed
+
+return: an error
+*/
 func IndexDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 	out, _ := files.ReadFile(languageDir + "/" + language + asyncExt + rawExt)
