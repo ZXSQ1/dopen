@@ -223,6 +223,14 @@ func PrepareDocs(language string) {
 	}()
 }
 
+/*
+description: opens the interface to open the documentation
+arguments:
+
+	language: the language to search for the docs in
+
+return:
+*/
 func OpenDocs(language string) {
 	languageDir := GetLanguageDir(language)
 
