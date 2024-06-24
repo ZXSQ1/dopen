@@ -20,7 +20,7 @@ const (
 var (
 	rootDir     = utils.GetEnvironVar("HOME") + "/.cache/" + rootDirName
 	tempDir     = rootDir + "/.temp"
-	ColumnWidth = "100"
+	ColumnWidth = "200"
 )
 
 /*

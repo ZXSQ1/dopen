@@ -11,16 +11,15 @@ import (
 
 func help() {
 	message := `
-		syntax: <program> <language-doc-name>
-		options:
-			--help, -h 			for help
-			--width, -w	<uint>	for setting column width
+syntax: <program> <language-doc-name>
+options:
+	--help, -h 			for help
+	--width, -w	<uint>	for setting column width
 	`
 
 	message = strings.ReplaceAll(message, "\t", " ")
-	message = strings.Join(strings.Split(message, "\n")[1:], "\n")
 
-	println(message)
+	print(message)
 	os.Exit(1)
 }
 
