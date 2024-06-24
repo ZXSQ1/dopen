@@ -198,6 +198,14 @@ func SearchDocs(language, docEntryName string) (fullDocEntryName string) {
 	return "doc not found"
 }
 
+/*
+description: prepares the docs by fetching & indexing & caching
+arguments:
+
+	language: the language to prepare the docs for
+
+return:
+*/
 func PrepareDocs(language string) {
 	languageDir := GetLanguageDir(language)
 
