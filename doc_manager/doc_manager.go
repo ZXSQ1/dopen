@@ -190,7 +190,11 @@ func OpenDocs(language string) {
 	proc.Stdout = messenger
 	proc.Stderr = os.Stderr
 
-	proc.Run()
+	err := proc.Run()
+
+	if err != nil {
+		os.Exit(1)
+	}
 
 	// glow -p
 
