@@ -57,3 +57,17 @@ skip:
 		t.Fail()
 	}
 }
+
+func TestIsBinaryFound(t *testing.T) {
+	binaryToCheck := "mkdir"
+
+	if !IsBinaryFound(binaryToCheck) {
+		t.Fail()
+	}
+
+	binaryToCheck = "hfjskdhfjhskjdh"
+
+	if IsBinaryFound(binaryToCheck) {
+		t.Fail()
+	}
+}
