@@ -7,6 +7,7 @@ import (
 
 	"github.com/ZXSQ1/dopen/argp"
 	"github.com/ZXSQ1/dopen/doc_manager"
+	"github.com/ZXSQ1/dopen/utils"
 )
 
 func help() {
@@ -57,8 +58,25 @@ func start(args []string) {
 	}
 }
 
+func checkRequiredBins() {
+	requiredBins := []string{"glow", "dedoc", "fzf"}
+	requiredBinFound := true
+
+	for _, bin := range requiredBins {
+		if !utils.IsBinaryFound(bin) {
+			println("Error: required utility not found: " + bin)
+			requiredBinFound = false
+		}
+	}
+
+	if !requiredBinFound {
+		os.Exit(1)
+	}
+}
+
 func main() {
 	argv := os.Args
 
+	checkRequiredBins()
 	start(argv)
 }
