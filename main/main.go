@@ -14,11 +14,11 @@ func help() {
 	message := `
 syntax: <program> <language-doc-name>
 options:
-	--help, -h 			for help
-	--width, -w	<uint>	for setting column width
+	--help, -h             for help
+	--width, -w <uint>     for setting column width
 	`
 
-	message = strings.ReplaceAll(message, "\t", " ")
+	message = strings.ReplaceAll(message, "\\t", "\t")
 
 	print(message)
 	os.Exit(1)
