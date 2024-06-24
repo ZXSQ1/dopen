@@ -170,6 +170,15 @@ func CacheDocs(language string) error {
 	return nil
 }
 
+/*
+description: searches for some doc
+arguments:
+
+	language: the language which contains the doc
+	docEntryName: the doc string to search for the completed version of
+
+return: the full doc entry
+*/
 func SearchDocs(language, docEntryName string) (fullDocEntryName string) {
 	if !strings.HasPrefix(docEntryName, "#") {
 		return docEntryName
