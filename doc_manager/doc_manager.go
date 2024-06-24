@@ -26,13 +26,23 @@ var (
 /*
 description: gets the directory for the language
 arguments:
+
 	language: the string language specified
+
 return: the directory for the language
 */
 func GetLanguageDir(language string) string {
 	return rootDir + "/" + language
 }
 
+/*
+description: initializes the language directory
+arguments:
+
+	language: the language to intialize the directory of
+
+return
+*/
 func Init(language string) {
 	languageDir := GetLanguageDir(language)
 
