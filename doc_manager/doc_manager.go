@@ -59,6 +59,14 @@ func Init(language string) {
 	}
 }
 
+/*
+description: fetches the raw docs unmodified docs
+arguments:
+
+	language: the language to fetch the raw docs of
+
+return: the error
+*/
 func FetchRawDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
