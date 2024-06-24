@@ -86,6 +86,16 @@ func FetchRawDocs(language string) error {
 	return files.WriteFile(languageDir+"/"+language+asyncExt+rawExt, []byte(strOut))
 }
 
+/*
+description: filters the doc entry
+arguments:
+
+	entry: the unfiltered doc entry
+
+return: a slice containing
+ 1. the code of the entry at index 0
+ 2. the name of the entry at index 1
+*/
 func FilterDocEntry(entry string) []string {
 	entry = strings.TrimSpace(entry)
 	entryParts := strings.Split(entry, " ")
