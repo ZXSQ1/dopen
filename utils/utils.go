@@ -86,6 +86,16 @@ func (messenger *Messenger) Read(p []byte) (n int, err error) {
 	return length, nil
 }
 
+/*
+description: checks if the binary is found
+arguments:
+
+	binaryName: the name of the binary to check for
+
+return:
+  - true if the binary is found
+  - false if the binary is not found
+*/
 func IsBinaryFound(binaryName string) bool {
 	for _, path := range strings.Split(GetEnvironVar("PATH"), ":") {
 		if files.IsExists(path + "/" + binaryName) {
@@ -95,4 +105,3 @@ func IsBinaryFound(binaryName string) bool {
 
 	return false
 }
-
