@@ -23,6 +23,12 @@ var (
 	ColumnWidth = "100"
 )
 
+/*
+description: gets the directory for the language
+arguments:
+	language: the string language specified
+return: the directory for the language
+*/
 func GetLanguageDir(language string) string {
 	return rootDir + "/" + language
 }
