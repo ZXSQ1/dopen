@@ -4,7 +4,7 @@ A simple and somewhat fast script that you can use to open devdocs' docs in the 
 ## Requirements
 - The `dedoc` utility (can be found at https://github.com/toiletbril/dedoc)
 - The `glow` utility (can be found at https://github.com/charmbracelet/glow)
-- The `pick` utility (can be found at https://github.com/mptre/pick)
+- The `fzf` utility (can be found at https://github.com/junegunn/fzf)
 
 Preferably, you can consider a:
 - Go Installation

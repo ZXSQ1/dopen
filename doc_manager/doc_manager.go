@@ -165,9 +165,15 @@ func OpenDocs(language string) {
 	out, _ := files.ReadFile(languageDir + "/" + language + rawExt)
 	messenger.Write(out)
 
-	// pick
+	// fzf
 
-	proc := exec.Command("pick")
+	fzfOptions := []string{"--layout=reverse"}
+
+	if fzfDefaultOptions := utils.GetEnvironVar("FZF_DEFAULT_OPTS"); fzfDefaultOptions != "" {
+		fzfOptions = strings.Split(fzfDefaultOptions, " ")
+	}
+
+	proc := exec.Command("fzf", fzfOptions...)
 	proc.Stdin = messenger
 	proc.Stdout = messenger
 	proc.Stderr = os.Stderr
