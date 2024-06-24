@@ -4,6 +4,8 @@ import (
 	"io"
 	"os"
 	"strings"
+
+	"github.com/ZXSQ1/dopen/files"
 )
 
 /*
@@ -76,10 +78,21 @@ func (messenger *Messenger) Read(p []byte) (n int, err error) {
 	}
 
 	for i := 0; i < length; i++ {
-		p[i] = messenger.Message[messenger.Position + i]
+		p[i] = messenger.Message[messenger.Position+i]
 	}
 
 	messenger.Position += length
 
 	return length, nil
 }
+
+func IsBinaryFound(binaryName string) bool {
+	for _, path := range strings.Split(GetEnvironVar("PATH"), ":") {
+		if files.IsExists(path + "/" + binaryName) {
+			return true
+		}
+	}
+
+	return false
+}
+
