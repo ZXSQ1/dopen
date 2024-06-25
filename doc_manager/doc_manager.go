@@ -16,8 +16,8 @@ const (
 	rawExt   = ".raw"
 	indexExt = ".index"
 
-	docInstalled    = 0
-	docNotInstalled = 1
+	docInstalled    = 1
+	docNotInstalled = 2
 )
 
 var (
@@ -98,12 +98,20 @@ arguments:
 return:
 */
 func DownloadDocs(language string) {
+	foundDocs := ListDocs()
+
+	if status, found := foundDocs[language]; found == false || status == docInstalled {
+		return
+	}
+
+	println("Error: doc not installed. Installing.")
+
 	proc := exec.Command("dedoc", "download", language)
 	proc.Stderr = os.Stderr
+	proc.Stdout = os.Stdout
+	proc.Stdin = os.Stdin
 
-	if proc.Run() != nil {
-		os.Exit(1)
-	}
+	proc.Run()
 }
 
 /*
