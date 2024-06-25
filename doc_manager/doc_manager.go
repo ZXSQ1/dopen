@@ -79,6 +79,8 @@ return: the error
 func FetchRawDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
+	DownloadDocs(language)
+
 	proc := exec.Command("dedoc", "search", language)
 	proc.Stderr = os.Stderr
 	proc.Stdin = os.Stdin
