@@ -59,6 +59,15 @@ func Init(language string) {
 	}
 }
 
+func DownloadDocs(language string) {
+	proc := exec.Command("dedoc", "download", language)
+	proc.Stderr = os.Stderr
+	
+	if proc.Run() != nil {
+		os.Exit(1)
+	}
+}
+
 /*
 description: fetches the raw docs unmodified docs
 arguments:
