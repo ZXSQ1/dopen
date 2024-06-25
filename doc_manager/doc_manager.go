@@ -16,7 +16,7 @@ const (
 	rawExt   = ".raw"
 	indexExt = ".index"
 
-	docInstalled = 0
+	docInstalled    = 0
 	docNotInstalled = 1
 )
 
@@ -62,6 +62,13 @@ func Init(language string) {
 	}
 }
 
+/*
+description: lists the docs
+agruments:
+return: a map where:
+  - downloaded docs have the docInstalled value
+  - not downloaded docs have the docNotInstalled value
+*/
 func ListDocs() map[string]int {
 	result := map[string]int{}
 
