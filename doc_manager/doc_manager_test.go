@@ -173,3 +173,13 @@ func TestListDocs(t *testing.T) {
 		}
 	}
 }
+
+func TestDownloadDocs(t *testing.T) {
+	docToDownload := "css"
+
+	proc := exec.Command("dedoc", "remove", docToDownload)
+	proc.Run()
+
+	DownloadDocs(docToDownload)
+	DownloadDocs(docToDownload)
+}

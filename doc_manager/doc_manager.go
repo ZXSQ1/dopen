@@ -104,7 +104,7 @@ func DownloadDocs(language string) {
 		return
 	}
 
-	println("Error: doc not installed. Installing.")
+	println("Error: doc not installed. Installing...")
 
 	proc := exec.Command("dedoc", "download", language)
 	proc.Stderr = os.Stderr
