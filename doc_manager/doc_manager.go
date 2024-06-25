@@ -100,13 +100,20 @@ return:
 func DownloadDocs(language string) {
 	foundDocs := ListDocs()
 
+	var proc *exec.Cmd
+
+	if !files.IsExists(utils.GetEnvironVar("HOME") + "/.dedoc/docs.json") {
+		proc = exec.Command("dedoc", "fetch")
+		proc.Run()
+	}
+
 	if status, found := foundDocs[language]; found == false || status == docInstalled {
 		return
 	}
 
 	println("Error: doc not installed. Installing...")
 
-	proc := exec.Command("dedoc", "download", language)
+	proc = exec.Command("dedoc", "download", language)
 	proc.Stderr = os.Stderr
 	proc.Stdout = os.Stdout
 	proc.Stdin = os.Stdin
