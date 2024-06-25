@@ -16,6 +16,8 @@ syntax: <program> <language-doc-name>
 options:
 	--help, -h             for help
 	--width, -w <uint>     for setting column width
+	--list, -l             for listing the docs
+	--download, -d         for downloading the doc
 	`
 
 	message = strings.ReplaceAll(message, "\\t", "\t")
