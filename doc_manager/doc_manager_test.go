@@ -155,3 +155,21 @@ func TestPrepareDocs(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestListDocs(t *testing.T) {
+	docToInstall := "css"
+
+	t.Cleanup(func() {
+		proc := exec.Command("dedoc", "remove", docToInstall)
+		proc.Run()
+	})
+
+	proc := exec.Command("dedoc", "download", docToInstall)
+	proc.Run()
+
+	for key, val := range ListDocs() {
+		if key == docToInstall && val == docNotInstalled {
+			t.Fail()
+		}
+	}
+}
