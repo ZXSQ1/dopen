@@ -167,8 +167,10 @@ func TestListDocs(t *testing.T) {
 	proc := exec.Command("dedoc", "download", docToInstall)
 	proc.Run()
 
-	for key, val := range ListDocs() {
-		if key == docToInstall && val == docNotInstalled {
+	foundDocs := ListDocs()
+
+	for index, doc := range foundDocs[0] {
+		if doc == docToInstall && foundDocs[1][index] == docNotInstalled {
 			t.Fail()
 		}
 	}
