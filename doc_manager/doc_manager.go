@@ -16,8 +16,8 @@ const (
 	rawExt   = ".raw"
 	indexExt = ".index"
 
-	docInstalled    = 1
-	docNotInstalled = 2
+	docInstalled    = "i"
+	docNotInstalled = "n"
 )
 
 var (
@@ -65,12 +65,13 @@ func Init(language string) {
 /*
 description: lists the docs
 agruments:
-return: a map where:
-  - downloaded docs have the docInstalled value
-  - not downloaded docs have the docNotInstalled value
+return: a slice of 2 slices with the same length:
+  1. slice with their doc name at index 0
+  2. slice with their doc status at index 1
 */
-func ListDocs() map[string]int {
-	result := map[string]int{}
+func ListDocs() [][]string {
+	docNames := []string{}
+	docStatus := []string{}
 
 	proc := exec.Command("dedoc", "list")
 	out, _ := proc.Output()
@@ -80,13 +81,15 @@ func ListDocs() map[string]int {
 		doc = strings.TrimSpace(doc)
 
 		if strings.Contains(doc, "downloaded") {
-			result[strings.Split(doc, " ")[0]] = docInstalled
+			docNames = append(docNames, strings.Split(doc, " ")[0])
+			docStatus = append(docStatus, docInstalled)
 		} else {
-			result[doc] = docNotInstalled
+			docNames = append(docNames, doc)
+			docStatus = append(docStatus, docNotInstalled)
 		}
 	}
 
-	return result
+	return [][]string{docNames, docStatus}
 }
 
 /*
