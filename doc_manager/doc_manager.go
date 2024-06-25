@@ -85,6 +85,8 @@ func ListDocs() map[string]int {
 			result[doc] = docNotInstalled
 		}
 	}
+
+	return result
 }
 
 /*
