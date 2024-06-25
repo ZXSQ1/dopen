@@ -3,6 +3,7 @@ package doc_manager
 import (
 	"os"
 	"os/exec"
+	"slices"
 	"strings"
 
 	"github.com/ZXSQ1/dopen/files"
@@ -110,7 +111,8 @@ func DownloadDocs(language string) {
 		proc.Run()
 	}
 
-	if status, found := foundDocs[language]; found == false || status == docInstalled {
+	languageIndex := slices.Index(foundDocs[0], language)
+	if languageIndex == -1 || (languageIndex > -1 && foundDocs[1][languageIndex] == docInstalled) {
 		return
 	}
 
