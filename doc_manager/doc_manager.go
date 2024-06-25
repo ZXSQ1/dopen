@@ -59,10 +59,18 @@ func Init(language string) {
 	}
 }
 
+/*
+description: downloads the docs of the specified language
+arguments:
+
+	language: the language to download the docs of
+
+return:
+*/
 func DownloadDocs(language string) {
 	proc := exec.Command("dedoc", "download", language)
 	proc.Stderr = os.Stderr
-	
+
 	if proc.Run() != nil {
 		os.Exit(1)
 	}
