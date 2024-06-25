@@ -64,7 +64,7 @@ func checkRequiredBins() {
 
 	for _, bin := range requiredBins {
 		if !utils.IsBinaryFound(bin) {
-			println("Error: required utility not found: " + bin)
+			println("Error: required binary not found in PATH: " + bin)
 			requiredBinFound = false
 		}
 	}
