@@ -15,6 +15,9 @@ const (
 	asyncExt = ".async"
 	rawExt   = ".raw"
 	indexExt = ".index"
+
+	docInstalled = 0
+	docNotInstalled = 1
 )
 
 var (
@@ -56,6 +59,24 @@ func Init(language string) {
 
 	if !files.IsExists(languageDir) {
 		os.Mkdir(languageDir, 0744)
+	}
+}
+
+func ListDocs() map[string]int {
+	result := map[string]int{}
+
+	proc := exec.Command("dedoc", "list")
+	out, _ := proc.Output()
+	list := strings.Split(string(out), ",")
+
+	for _, doc := range list {
+		doc = strings.TrimSpace(doc)
+
+		if strings.Contains(doc, "downloaded") {
+			result[strings.Split(doc, " ")[0]] = docInstalled
+		} else {
+			result[doc] = docNotInstalled
+		}
 	}
 }
 
