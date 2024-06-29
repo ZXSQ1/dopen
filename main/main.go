@@ -12,7 +12,7 @@ import (
 
 func help() {
 	message := `
-syntax: <program> <language-doc-name>
+syntax: dopen <language-doc-name>
 options:
 	--help, -h             for help
 	--width, -w <uint>     for setting column width
@@ -21,6 +21,7 @@ options:
 	`
 
 	message = strings.ReplaceAll(message, "\\t", "\t")
+	message = strings.TrimSpace(message) + "\n"
 
 	print(message)
 	os.Exit(1)
