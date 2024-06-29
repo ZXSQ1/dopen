@@ -40,7 +40,7 @@ function get-ov {
 
         cd "$DEPS_ROOT"
 
-        unzip "$bin"
+        unzip -o "$bin"
 
         rm "$bin"
 
@@ -55,5 +55,7 @@ get-ov
 mkdir -p $HOME/.local/bin
 chmod +x "$DEPS_ROOT"/{dedoc,dedoc.exe,fzf,fzf.exe,ov,ov.exe}
 mv "$DEPS_ROOT"/{dedoc,dedoc.exe,fzf,fzf.exe,ov,ov.exe} $HOME/.local/bin
+
+rm -r "$DEPS_ROOT"/..
 
 printf "\ninstallation of dependencies complete; make sure to add the $HOME/.local/bin to the PATH"
