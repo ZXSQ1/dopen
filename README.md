@@ -9,7 +9,10 @@ A simple and somewhat fast script that you can use to open devdocs' docs in the 
 Preferably, you can consider a:
 - Go Installation
 - Rust Installation
+
 to make installing these dependencies easier.
+
+**Note:** this relies on `dedoc`, so if you want additional functionality like controlling the packages and how to install them and such, I advise you to use `dedoc`, as my program is intended for opening the docs.
 
 ## Installation
 
