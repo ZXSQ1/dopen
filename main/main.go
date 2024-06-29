@@ -18,6 +18,7 @@ options:
 	--width, -w <uint>     for setting column width
 	--list, -l             for listing the docs
 	--download, -d         for downloading the doc
+	--remove, -r           for removing the doc
 	`
 
 	message = strings.ReplaceAll(message, "\\t", "\t")
@@ -74,6 +75,13 @@ func handle(args []string) {
 		}
 
 		doc_manager.DownloadDocs(args[1])
+	case "-r", "--remove":
+		if len(args) < 2 {
+			println("Error: no value specified after option")
+			help()
+		}
+
+		doc_manager.RemoveDocs(args[1])
 	default:
 		fmt.Printf("Error: option: %s not recognized\n", option)
 		help()
