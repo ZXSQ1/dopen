@@ -185,3 +185,12 @@ func TestDownloadDocs(t *testing.T) {
 	DownloadDocs(docToDownload)
 	DownloadDocs(docToDownload)
 }
+
+func TestRemoveDocs(t *testing.T) {
+	docToRemove := "css"
+
+	DownloadDocs(docToRemove)
+
+	RemoveDocs(docToRemove)
+	RemoveDocs(docToRemove)
+}
