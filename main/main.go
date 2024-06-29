@@ -82,6 +82,7 @@ func handle(args []string) {
 
 func start(args []string) {
 	if len(args) < 2 {
+		println("Error: no option specified")
 		help()
 	} else {
 		args = args[1:]
