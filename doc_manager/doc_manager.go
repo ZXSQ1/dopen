@@ -113,6 +113,7 @@ func DownloadDocs(language string) {
 
 	languageIndex := slices.Index(foundDocs[0], language)
 	if languageIndex == -1 || (languageIndex > -1 && foundDocs[1][languageIndex] == docInstalled) {
+		println("Error: installed or not found; not installing")
 		return
 	}
 
