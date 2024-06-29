@@ -3,10 +3,7 @@ package main
 import (
 	"os"
 	"strings"
-	"unicode"
 
-	"github.com/ZXSQ1/dopen/argp"
-	"github.com/ZXSQ1/dopen/doc_manager"
 	"github.com/ZXSQ1/dopen/utils"
 )
 
@@ -32,32 +29,11 @@ func start(args []string) {
 		help()
 	} else {
 		args = args[1:]
-		argParser := argp.GetArgParser(args)
 
 		if len(args) < 1 {
 			help()
 		}
 
-		argParser.HandleArgs([]string{"-h", "--help"}, func(s ...string) { help() }, 0)
-		argParser.HandleArgs([]string{"-w", "--width"}, func(s ...string) {
-			if len(s) < 1 {
-				help()
-			}
-
-			for _, char := range s[0] {
-				if !unicode.IsDigit(char) {
-					help()
-				}
-			}
-
-			doc_manager.ColumnWidth = s[0]
-		}, 1)
-
-		args = argParser.Execute()
-
-		for _, arg := range args {
-			doc_manager.OpenDocs(arg)
-		}
 	}
 }
 
