@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/ZXSQ1/dopen/files"
+	"github.com/ZXSQ1/dopen/launch"
 	"github.com/ZXSQ1/dopen/utils"
 )
 
@@ -345,42 +346,19 @@ func OpenDocs(language string) {
 
 	// fzf
 
-	fzfOptions := []string{"--layout=reverse"}
-
-	if fzfDefaultOptions := utils.GetEnvironVar("FZF_DEFAULT_OPTS"); fzfDefaultOptions != "" {
-		fzfOptions = strings.Split(fzfDefaultOptions, " ")
-	}
-
-	proc := exec.Command("fzf", fzfOptions...)
-	proc.Stdin = messenger
-	proc.Stdout = messenger
-	proc.Stderr = os.Stderr
-
-	proc.Run()
+	launch.Fzf(messenger, messenger)
 
 	// filter chosen doc
 
 	docEntryName := FilterDocEntry(string(messenger.Message))[1]
 	docEntryName = SearchDocs(language, docEntryName)
 
-	messenger = &utils.Messenger{}
-	messenger.Write([]byte(docEntryName))
-
 	// dedoc open
 
-	proc = exec.Command("dedoc", "-c", "open", language, string(messenger.Message))
 	messenger = &utils.Messenger{}
+	launch.OpenDedoc(language, docEntryName, messenger)
 
-	proc.Stdout = messenger
-	proc.Stderr = os.Stderr
-
-	err := proc.Run()
-
-	if err != nil {
-		os.Exit(1)
-	}
-
-	// glow -p
+	// ov
 
 	tempFile := tempDir + "/doc"
 
@@ -390,10 +368,5 @@ func OpenDocs(language string) {
 
 	files.WriteFile(tempFile, messenger.Message)
 
-	proc = exec.Command("ov", "--column-width", ColumnWidth, tempFile)
-	proc.Stdin = os.Stderr
-	proc.Stdout = os.Stdout
-	proc.Stderr = os.Stderr
-
-	proc.Run()
+	launch.Ov(tempFile, []string{"--column-width", ColumnWidth})
 }

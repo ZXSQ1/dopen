@@ -77,8 +77,8 @@ func Ov(file string, options []string) {
 
 	proc := exec.Command(OvPath, args...)
 	proc.Stdin = os.Stderr
-	//	proc.Stdout = os.Stdout
-	proc.Stderr = os.Stderr
+	proc.Stdout = os.Stdout
+	//	proc.Stderr = os.Stderr
 
 	proc.Run()
 }
