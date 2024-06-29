@@ -36,3 +36,15 @@ func OpenDedoc(language, doc string, writer io.Writer) {
 		os.Exit(1)
 	}
 }
+
+func Ov(file string, options []string) {
+	args := []string{file}
+	args = append(args, options...)
+
+	proc := exec.Command("ov", args...)
+	proc.Stdin = os.Stderr
+	proc.Stdout = os.Stdout
+	proc.Stderr = os.Stderr
+
+	proc.Run()
+}
