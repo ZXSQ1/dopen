@@ -8,6 +8,13 @@ import (
 	"github.com/ZXSQ1/dopen/files"
 )
 
+/*
+description: gets the given url
+arguments:
+	dirPath: the path of the directory to output to
+	pkgURL: the URL of the package to get
+return:
+*/
 func GetPkg(dirPath, pkgURL string, pkgBin string) {
 	response, err := http.Get(pkgURL + "/" + pkgBin)
 
