@@ -9,6 +9,12 @@ import (
 	"github.com/ZXSQ1/dopen/utils"
 )
 
+var (
+	FzfPath   = "fzf"
+	DedocPath = "dedoc"
+	OvPath    = "ov"
+)
+
 /*
 description: opens the fuzzy finder
 arguments:
@@ -25,7 +31,7 @@ func Fzf(writer io.Writer, reader io.Reader) {
 		fzfOptions = strings.Split(fzfDefaultOptions, " ")
 	}
 
-	proc := exec.Command("fzf", fzfOptions...)
+	proc := exec.Command(FzfPath, fzfOptions...)
 	proc.Stdin = reader
 	proc.Stdout = writer
 	proc.Stderr = os.Stderr
@@ -44,7 +50,7 @@ arguments:
 return:
 */
 func OpenDedoc(language, doc string, writer io.Writer) {
-	proc := exec.Command("dedoc", "-c", "open", language, doc)
+	proc := exec.Command(DedocPath, "-c", "open", language, doc)
 
 	proc.Stdout = writer
 	proc.Stderr = os.Stderr
@@ -69,7 +75,7 @@ func Ov(file string, options []string) {
 	args := []string{file}
 	args = append(args, options...)
 
-	proc := exec.Command("ov", args...)
+	proc := exec.Command(OvPath, args...)
 	proc.Stdin = os.Stderr
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
