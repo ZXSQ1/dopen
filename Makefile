@@ -1,5 +1,5 @@
 
-MAIN = main/main.go
+MAIN = main.go
 COMPILE = go build
 
 VERSION = 0.0.1

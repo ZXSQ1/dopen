@@ -368,7 +368,7 @@ func OpenDocs(language string) {
 
 	// dedoc open
 
-	proc = exec.Command("dedoc", "open", language, string(messenger.Message))
+	proc = exec.Command("dedoc", "-c", "open", language, string(messenger.Message))
 	messenger = &utils.Messenger{}
 
 	proc.Stdout = messenger
@@ -390,7 +390,7 @@ func OpenDocs(language string) {
 
 	files.WriteFile(tempFile, messenger.Message)
 
-	proc = exec.Command("glow", "-p", "-w", ColumnWidth, tempFile)
+	proc = exec.Command("ov", "--column-width", ColumnWidth, tempFile)
 	proc.Stdin = os.Stderr
 	proc.Stdout = os.Stdout
 	proc.Stderr = os.Stderr
