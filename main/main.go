@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 	"unicode"
 
@@ -83,6 +84,11 @@ func handle(args []string) {
 
 		doc_manager.RemoveDocs(args[1])
 	default:
+		if slices.Contains(doc_manager.ListDocs()[0], option) {
+			doc_manager.OpenDocs(option)
+			return
+		}
+
 		fmt.Printf("Error: option: %s not recognized\n", option)
 		help()
 	}
