@@ -125,12 +125,19 @@ func DownloadDocs(language string) {
 	proc.Run()
 }
 
+/*
+description: removes the docs of the language
+arguments:
+	language: the language doc to remove
+return: 
+*/
 func RemoveDocs(language string) {
 	foundDocs := ListDocs()
 
 	languageIndex := slices.Index(foundDocs[0], language)
 	if languageIndex == -1 || (languageIndex > -1 && foundDocs[1][languageIndex] == docNotInstalled) {
 		println("Error: not installed or not found; not removing")
+		return
 	}
 
 	proc := exec.Command("dedoc", "remove", language)
