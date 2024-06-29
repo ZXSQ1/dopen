@@ -144,6 +144,9 @@ func checkRequiredBins() {
 	}
 
 	if !requiredBinFound {
+		println("installing dependencies....")
+		getDependencies()
+		
 		os.Exit(1)
 	}
 }
