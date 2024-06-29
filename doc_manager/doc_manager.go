@@ -184,6 +184,8 @@ func FetchRawDocs(language string) error {
 	strOut := string(out)
 	strOut = strings.Join(strings.Split(strOut, "\n")[2:], "\n")
 
+	strOut = strings.ReplaceAll(strOut, ", ", "\n\t* ") // for wierd docs
+
 	return files.WriteFile(languageDir+"/"+language+asyncExt+rawExt, []byte(strOut))
 }
 
