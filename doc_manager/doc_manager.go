@@ -116,8 +116,6 @@ func DownloadDocs(language string) {
 		return
 	}
 
-	println("Error: doc not installed. Installing...")
-
 	proc = exec.Command("dedoc", "download", language)
 	proc.Stderr = os.Stderr
 	proc.Stdout = os.Stdout
