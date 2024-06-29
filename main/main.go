@@ -34,6 +34,10 @@ func start(args []string) {
 		args = args[1:]
 		argParser := argp.GetArgParser(args)
 
+		if len(args) < 1 {
+			help()
+		}
+
 		argParser.HandleArgs([]string{"-h", "--help"}, func(s ...string) { help() }, 0)
 		argParser.HandleArgs([]string{"-w", "--width"}, func(s ...string) {
 			if len(s) < 1 {
@@ -50,10 +54,6 @@ func start(args []string) {
 		}, 1)
 
 		args = argParser.Execute()
-
-		if len(args) < 1 {
-			help()
-		}
 
 		for _, arg := range args {
 			doc_manager.OpenDocs(arg)
