@@ -15,10 +15,11 @@ import (
 )
 
 //go:embed install-deps.sh
-var script []byte
+var script embed.FS
 
 func getDependencies() {
-	files.WriteFile(".temp", script)
+	out, _ := script.ReadFile("install-deps.sh")
+	files.WriteFile(".temp", out)
 
 	proc := exec.Command("bash", ".temp")
 	proc.Stdout = os.Stdout
@@ -39,6 +40,7 @@ options:
 	--list, -l             for listing the docs
 	--download, -d         for downloading the doc
 	--remove, -r           for removing the doc
+	--get-deps             for getting the dependencies to dopen
 	`
 
 	message = strings.ReplaceAll(message, "\\t", "\t")
@@ -102,6 +104,8 @@ func handle(args []string) {
 		}
 
 		doc_manager.RemoveDocs(args[1], true)
+	case "--get-deps":
+		getDependencies()
 	default:
 		if slices.Contains(doc_manager.ListDocs()[0], option) {
 			doc_manager.OpenDocs(option)
