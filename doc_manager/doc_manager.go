@@ -125,6 +125,22 @@ func DownloadDocs(language string) {
 	proc.Run()
 }
 
+func RemoveDocs(language string) {
+	foundDocs := ListDocs()
+
+	languageIndex := slices.Index(foundDocs[0], language)
+	if languageIndex == -1 || (languageIndex > -1 && foundDocs[1][languageIndex] == docNotInstalled) {
+		println("Error: not installed or not found; not removing")
+	}
+
+	proc := exec.Command("dedoc", "remove", language)
+	proc.Stdout = os.Stdout
+	proc.Stderr = os.Stderr
+	proc.Stdin = os.Stdin
+
+	proc.Run()
+}
+
 /*
 description: fetches the raw docs unmodified docs
 arguments:
