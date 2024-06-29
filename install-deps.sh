@@ -23,6 +23,22 @@ function get-fzf {
         cd "$DEPS_ROOT"
 
         tar -xf "$bin"
+        unzip "$bin"
+
+        cd -
+    done
+}
+
+function get-ov {
+    VERSION=0.35.0
+    URL="https://github.com/noborus/ov/releases/download/$VERSION/"
+
+    for bin in ov_"$VERSION"_linux_amd64.zip ov_"$VERSION"_windows_amd64.zip; do
+        wget -P "$DEPS_ROOT" "$URL"/$bin
+
+        cd "$DEPS_ROOT"
+
+        unzip "$bin"
 
         cd -
     done
