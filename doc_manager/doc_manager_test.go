@@ -182,15 +182,15 @@ func TestDownloadDocs(t *testing.T) {
 	proc := exec.Command("dedoc", "remove", docToDownload)
 	proc.Run()
 
-	DownloadDocs(docToDownload)
-	DownloadDocs(docToDownload)
+	DownloadDocs(docToDownload, true)
+	DownloadDocs(docToDownload, true)
 }
 
 func TestRemoveDocs(t *testing.T) {
 	docToRemove := "css"
 
-	DownloadDocs(docToRemove)
+	DownloadDocs(docToRemove, false)
 
-	RemoveDocs(docToRemove)
-	RemoveDocs(docToRemove)
+	RemoveDocs(docToRemove, true)
+	RemoveDocs(docToRemove, true)
 }

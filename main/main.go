@@ -75,14 +75,14 @@ func handle(args []string) {
 			help()
 		}
 
-		doc_manager.DownloadDocs(args[1])
+		doc_manager.DownloadDocs(args[1], true)
 	case "-r", "--remove":
 		if len(args) < 2 {
 			println("Error: no value specified after option")
 			help()
 		}
 
-		doc_manager.RemoveDocs(args[1])
+		doc_manager.RemoveDocs(args[1], true)
 	default:
 		if slices.Contains(doc_manager.ListDocs()[0], option) {
 			doc_manager.OpenDocs(option)

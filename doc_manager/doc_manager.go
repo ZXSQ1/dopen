@@ -67,8 +67,8 @@ func Init(language string) {
 description: lists the docs
 agruments:
 return: a slice of 2 slices with the same length:
-  1. slice with their doc name at index 0
-  2. slice with their doc status at index 1
+ 1. slice with their doc name at index 0
+ 2. slice with their doc status at index 1
 */
 func ListDocs() [][]string {
 	docNames := []string{}
@@ -98,10 +98,11 @@ description: downloads the docs of the specified language
 arguments:
 
 	language: the language to download the docs of
+	view: a boolean that decides whether to show an error message or not
 
 return:
 */
-func DownloadDocs(language string) {
+func DownloadDocs(language string, view bool) {
 	foundDocs := ListDocs()
 
 	var proc *exec.Cmd
@@ -113,7 +114,10 @@ func DownloadDocs(language string) {
 
 	languageIndex := slices.Index(foundDocs[0], language)
 	if languageIndex == -1 || (languageIndex > -1 && foundDocs[1][languageIndex] == docInstalled) {
-		println("Error: installed or not found; not installing")
+		if view {
+			println("Error: installed or not found; not installing")
+		}
+
 		return
 	}
 
@@ -128,15 +132,21 @@ func DownloadDocs(language string) {
 /*
 description: removes the docs of the language
 arguments:
+
 	language: the language doc to remove
-return: 
+	view: a boolean that decides whether to show an error message or not
+
+return:
 */
-func RemoveDocs(language string) {
+func RemoveDocs(language string, view bool) {
 	foundDocs := ListDocs()
 
 	languageIndex := slices.Index(foundDocs[0], language)
 	if languageIndex == -1 || (languageIndex > -1 && foundDocs[1][languageIndex] == docNotInstalled) {
-		println("Error: not installed or not found; not removing")
+		if view {
+			println("Error: not installed or not found; not removing")
+		}
+
 		return
 	}
 
@@ -159,7 +169,7 @@ return: the error
 func FetchRawDocs(language string) error {
 	languageDir := GetLanguageDir(language)
 
-	DownloadDocs(language)
+	DownloadDocs(language, false)
 
 	proc := exec.Command("dedoc", "search", language)
 	proc.Stderr = os.Stderr
