@@ -56,6 +56,15 @@ func OpenDedoc(language, doc string, writer io.Writer) {
 	}
 }
 
+/*
+description: open the ov pager
+arguments:
+
+	file: the path to the file to open
+	options: a slice of options to pass
+
+return:
+*/
 func Ov(file string, options []string) {
 	args := []string{file}
 	args = append(args, options...)
