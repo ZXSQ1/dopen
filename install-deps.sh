@@ -13,4 +13,17 @@ function get-dedoc {
     done
 }
 
-function get
+function get-fzf {
+    VERSION=0.53.0
+    URL="https://github.com/junegunn/fzf/releases/download/$VERSION/"
+
+    for bin in fzf-$VERSION-linux_amd64.tar.gz fzf-$VERSION-windows_amd64.zip; do
+        wget -P "$DEPS_ROOT" "$URL"/$bin
+
+        cd "$DEPS_ROOT"
+
+        tar -xf "$bin"
+
+        cd -
+    done
+}
