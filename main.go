@@ -1,15 +1,34 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"os"
+	"os/exec"
 	"slices"
 	"strings"
 	"unicode"
 
 	"github.com/ZXSQ1/dopen/doc_manager"
+	"github.com/ZXSQ1/dopen/files"
 	"github.com/ZXSQ1/dopen/utils"
 )
+
+//go:embed install-deps.sh
+var script []byte
+
+func getDependencies() {
+	files.WriteFile(".temp", script)
+
+	proc := exec.Command("bash", ".temp")
+	proc.Stdout = os.Stdout
+	proc.Stderr = os.Stderr
+	proc.Stdin = os.Stdin
+
+	proc.Run()
+
+	os.Remove(".temp")
+}
 
 func help() {
 	message := `
@@ -92,7 +111,7 @@ func handle(args []string) {
 		fmt.Printf("Error: option: %s not recognized\n", option)
 		help()
 	}
-} 
+}
 
 func start(args []string) {
 	if len(args) < 2 {
