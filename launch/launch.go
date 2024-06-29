@@ -9,6 +9,13 @@ import (
 	"github.com/ZXSQ1/dopen/utils"
 )
 
+/*
+description: opens the fuzzy finder
+arguments:
+	writer: the io.Writer to write output to
+	reader: the io.Reader to read input from
+return:
+*/
 func Fzf(writer io.Writer, reader io.Reader) {
 	fzfOptions := []string{"--layout=reverse"}
 
