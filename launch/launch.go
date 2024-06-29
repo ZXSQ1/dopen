@@ -23,3 +23,16 @@ func Fzf(writer io.Writer, reader io.Reader) {
 
 	proc.Run()
 }
+
+func OpenDedoc(language, doc string, writer io.Writer) {
+	proc := exec.Command("dedoc", "-c", "open", language, doc)
+
+	proc.Stdout = writer
+	proc.Stderr = os.Stderr
+
+	err := proc.Run()
+
+	if err != nil {
+		os.Exit(1)
+	}
+}
