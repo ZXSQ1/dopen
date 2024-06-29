@@ -3,7 +3,7 @@ A simple and somewhat fast script that you can use to open devdocs' docs in the 
 
 ## Requirements
 - The `dedoc` utility (can be found at https://github.com/toiletbril/dedoc)
-- The `glow` utility (can be found at https://github.com/charmbracelet/glow)
+- The `ov` utility (can be found at https://github.com/noborus/ov)
 - The `fzf` utility (can be found at https://github.com/junegunn/fzf)
 
 Preferably, you can consider a:
