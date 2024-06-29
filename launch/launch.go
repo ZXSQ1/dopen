@@ -12,8 +12,10 @@ import (
 /*
 description: opens the fuzzy finder
 arguments:
+
 	writer: the io.Writer to write output to
 	reader: the io.Reader to read input from
+
 return:
 */
 func Fzf(writer io.Writer, reader io.Reader) {
@@ -31,6 +33,16 @@ func Fzf(writer io.Writer, reader io.Reader) {
 	proc.Run()
 }
 
+/*
+description: opens dedoc with a specific doc
+arguments:
+
+	language: the language to open the doc in
+	doc: the doc to open in the language
+	writer: the writer to write the output to
+
+return:
+*/
 func OpenDedoc(language, doc string, writer io.Writer) {
 	proc := exec.Command("dedoc", "-c", "open", language, doc)
 
