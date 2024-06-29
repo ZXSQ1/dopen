@@ -11,12 +11,12 @@ import (
 /*
 description: gets the given url
 arguments:
-	dirPath: the path of the directory to output to
+	path: the path of the file to output to
 	pkgURL: the URL of the package to get
 return:
 */
-func GetPkg(dirPath, pkgURL string, pkgBin string) {
-	response, err := http.Get(pkgURL + "/" + pkgBin)
+func GetPkg(path, pkgURL string) {
+	response, err := http.Get(pkgURL)
 
 	if err != nil {
 		log.Fatalln(err.Error())
@@ -24,7 +24,7 @@ func GetPkg(dirPath, pkgURL string, pkgBin string) {
 
 	defer response.Body.Close()
 
-	file, _ := files.GetFile(dirPath + "/" + pkgBin)
+	file, _ := files.GetFile(path)
 	defer file.Close()
 
 	for {
