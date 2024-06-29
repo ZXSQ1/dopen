@@ -13,18 +13,18 @@ import (
 func TestGetLanguageDir(t *testing.T) {
 	language := "go"
 
-	if GetLanguageDir("go") != rootDir+"/"+language {
+	if GetLanguageDir("go") != RootDir+"/"+language {
 		t.Fail()
 	}
 }
 
 func TestInit(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	language := "rust"
-	paths := []string{rootDir, tempDir, rootDir + "/" + language}
+	paths := []string{RootDir, tempDir, RootDir + "/" + language}
 
 	for _, path := range paths {
 		if files.IsExists(path) {
@@ -43,7 +43,7 @@ func TestInit(t *testing.T) {
 
 func TestFetchRawDocs(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	language := "go"
@@ -68,7 +68,7 @@ func TestFetchRawDocs(t *testing.T) {
 
 func TestFilterDocEntry(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	docEntry := "      29603  #method.write_vectored   "
@@ -83,7 +83,7 @@ func TestFilterDocEntry(t *testing.T) {
 
 func TestIndexDocs(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	language := "go"
@@ -101,7 +101,7 @@ func TestIndexDocs(t *testing.T) {
 
 func TestCacheDocs(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	language := "rust"
@@ -119,7 +119,7 @@ func TestCacheDocs(t *testing.T) {
 
 func TestSearchDocs(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	language := "go"
@@ -142,14 +142,14 @@ func TestSearchDocs(t *testing.T) {
 
 func TestPrepareDocs(t *testing.T) {
 	t.Cleanup(func() {
-		os.RemoveAll(rootDir)
+		os.RemoveAll(RootDir)
 	})
 
 	language := "rust"
 
 	PrepareDocs(language)
 
-	if !files.IsExists(rootDir) || !files.IsExists(tempDir) ||
+	if !files.IsExists(RootDir) || !files.IsExists(tempDir) ||
 		!files.IsExists(GetLanguageDir(language)+"/"+language+indexExt) ||
 		!files.IsExists(GetLanguageDir(language)+"/"+language+rawExt) {
 		t.Fail()

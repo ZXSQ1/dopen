@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	rootDirName = "dopen"
+	RootDirName = "dopen"
 
 	asyncExt = ".async"
 	rawExt   = ".raw"
@@ -22,8 +22,8 @@ const (
 )
 
 var (
-	rootDir     = utils.GetEnvironVar("HOME") + "/.cache/" + rootDirName
-	tempDir     = rootDir + "/.temp"
+	RootDir     = utils.GetEnvironVar("HOME") + "/.cache/" + RootDirName
+	tempDir     = RootDir + "/.temp"
 	ColumnWidth = "80"
 )
 
@@ -36,7 +36,7 @@ arguments:
 return: the directory for the language
 */
 func GetLanguageDir(language string) string {
-	return rootDir + "/" + language
+	return RootDir + "/" + language
 }
 
 /*
@@ -50,8 +50,8 @@ return
 func Init(language string) {
 	languageDir := GetLanguageDir(language)
 
-	if !files.IsExists(rootDir) {
-		os.MkdirAll(rootDir, 0744)
+	if !files.IsExists(RootDir) {
+		os.MkdirAll(RootDir, 0744)
 	}
 
 	if !files.IsExists(tempDir) {

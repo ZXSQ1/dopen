@@ -7,11 +7,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/ZXSQ1/dopen/doc_manager"
 	"github.com/ZXSQ1/dopen/files"
-	"github.com/ZXSQ1/dopen/utils"
 )
 
-var BinDir = utils.GetEnvironVar("HOME") + "/.local/bin"
+var BinDir = doc_manager.RootDir + "/bin"
 
 /*
 description: gets the given url
