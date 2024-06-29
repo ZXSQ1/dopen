@@ -51,3 +51,9 @@ function get-ov {
 get-dedoc
 get-fzf
 get-ov
+
+mkdir -p $HOME/.local/bin
+chmod +x "$DEPS_ROOT"/{dedoc,dedoc.exe,fzf,fzf.exe,ov,ov.exe}
+mv "$DEPS_ROOT"/{dedoc,dedoc.exe,fzf,fzf.exe,ov,ov.exe} $HOME/.local/bin
+
+printf "\ninstallation of dependencies complete; make sure to add the $HOME/.local/bin to the PATH"
