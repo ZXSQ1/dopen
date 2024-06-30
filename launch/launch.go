@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/ZXSQ1/dopen/files"
 	"github.com/ZXSQ1/dopen/utils"
 )
 
@@ -75,8 +76,12 @@ func Ov(file string, options []string) {
 	args := []string{file}
 	args = append(args, options...)
 
+	messenger := &utils.Messenger{}
+	out, _ := files.ReadFile(file)
+	messenger.Write(out)
+
 	proc := exec.Command(OvPath, args...)
-	proc.Stdin = os.Stderr
+	proc.Stdin = messenger
 	proc.Stdout = os.Stdout
 	//	proc.Stderr = os.Stderr
 

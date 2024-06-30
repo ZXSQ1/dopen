@@ -368,5 +368,5 @@ func OpenDocs(language string) {
 
 	files.WriteFile(tempFile, messenger.Message)
 
-	launch.Ov(tempFile, []string{"--column-width", ColumnWidth})
+	launch.Ov(tempFile, []string{})
 }

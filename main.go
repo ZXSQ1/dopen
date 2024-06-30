@@ -7,7 +7,6 @@ import (
 	"os/exec"
 	"slices"
 	"strings"
-	"unicode"
 
 	"github.com/ZXSQ1/dopen/doc_manager"
 	"github.com/ZXSQ1/dopen/files"
@@ -36,7 +35,6 @@ func help() {
 syntax: dopen <language-doc-name>
 options:
 	--help, -h             for help
-	--width, -w <uint>     for setting column width
 	--list, -l             for listing the docs
 	--download, -d         for downloading the doc
 	--remove, -r           for removing the doc
@@ -56,26 +54,6 @@ func handle(args []string) {
 	switch option {
 	case "-h", "--help":
 		help()
-	case "-w", "--width":
-		if len(args) < 2 {
-			println("Error: no value specified after option")
-			help()
-		}
-
-		for _, char := range args[1] {
-			if !unicode.IsDigit(char) {
-				println("Error: value specified after option not a number")
-				help()
-			}
-		}
-
-		if len(args) < 3 {
-			println("Error: no language specified to open docs for")
-			help()
-		}
-
-		doc_manager.OpenDocs(args[2])
-
 	case "-l", "--list":
 		docList := doc_manager.ListDocs()
 
@@ -146,7 +124,7 @@ func checkRequiredBins() {
 	if !requiredBinFound {
 		println("installing dependencies....")
 		getDependencies()
-		
+
 		os.Exit(1)
 	}
 }
