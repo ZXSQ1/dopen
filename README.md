@@ -23,7 +23,3 @@ The Easy installation can be done if you have a Go installation or a Rust instal
 ### Manual
 
 You can manually install the utilities and then, if you have a Golang installation, you can build the binary. That is about it.
-
-## Notes
-
-I don't know much if this will work on either Windows or MacOS, as I have not tested the program on them. I have tested it on Linux though. There is a chance that, in the future, I could update this to work on every OS. But that is for the future anyway.
