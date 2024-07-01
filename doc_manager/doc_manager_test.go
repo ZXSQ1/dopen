@@ -147,7 +147,14 @@ func TestPrepareDocs(t *testing.T) {
 
 	language := "rust"
 
-	PrepareDocs(language)
+	signal := make(chan bool)
+	PrepareDocs(language, signal)
+
+	for {
+		if <-signal {
+			break
+		}
+	}
 
 	if !files.IsExists(RootDir) || !files.IsExists(tempDir) ||
 		!files.IsExists(GetLanguageDir(language)+"/"+language+indexExt) ||

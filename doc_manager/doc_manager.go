@@ -307,10 +307,11 @@ description: prepares the docs by fetching & indexing & caching
 arguments:
 
 	language: the language to prepare the docs for
+	signal: the channel to submit that it is done
 
 return:
 */
-func PrepareDocs(language string) {
+func PrepareDocs(language string, signal chan bool) {
 	languageDir := GetLanguageDir(language)
 
 	if !files.IsExists(languageDir + "/" + language + rawExt) {
@@ -324,6 +325,8 @@ func PrepareDocs(language string) {
 	go func() {
 		FetchRawDocs(language)
 		IndexDocs(language)
+
+		signal <- true
 	}()
 }
 
@@ -338,35 +341,44 @@ return:
 func OpenDocs(language string) {
 	languageDir := GetLanguageDir(language)
 
-	PrepareDocs(language)
+	doneSignal := make(chan bool)
+	PrepareDocs(language, doneSignal)
 
-	messenger := &utils.Messenger{}
-	out, _ := files.ReadFile(languageDir + "/" + language + rawExt)
-	messenger.Write(out)
+	func() {
+		messenger := &utils.Messenger{}
+		out, _ := files.ReadFile(languageDir + "/" + language + rawExt)
+		messenger.Write(out)
 
-	// fzf
+		// fzf
 
-	launch.Fzf(messenger, messenger)
+		launch.Fzf(messenger, messenger)
 
-	// filter chosen doc
+		// filter chosen doc
 
-	docEntryName := FilterDocEntry(string(messenger.Message))[1]
-	docEntryName = SearchDocs(language, docEntryName)
+		docEntryName := FilterDocEntry(string(messenger.Message))[1]
+		docEntryName = SearchDocs(language, docEntryName)
 
-	// dedoc open
+		// dedoc open
 
-	messenger = &utils.Messenger{}
-	launch.OpenDedoc(language, docEntryName, messenger)
+		messenger = &utils.Messenger{}
+		launch.OpenDedoc(language, docEntryName, messenger)
 
-	// ov
+		// ov
 
-	tempFile := tempDir + "/doc"
+		tempFile := tempDir + "/doc"
 
-	if files.IsExists(tempFile) {
-		os.Remove(tempFile)
+		if files.IsExists(tempFile) {
+			os.Remove(tempFile)
+		}
+
+		files.WriteFile(tempFile, messenger.Message)
+
+		launch.Ov(tempFile, []string{})
+	}()
+
+	for {
+		if <-doneSignal {
+			break
+		}
 	}
-
-	files.WriteFile(tempFile, messenger.Message)
-
-	launch.Ov(tempFile, []string{})
 }
