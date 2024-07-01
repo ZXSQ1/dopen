@@ -1,5 +1,5 @@
 # dopen
-A simple and somewhat fast script that you can use to open devdocs' docs in the terminal utilizing the terminal utility of devdocs known as `devdocs`.
+A simple and somewhat fast script that you can use to open devdocs' docs in the terminal utilizing the terminal utility of devdocs known as `dedoc`.
 
 ## Requirements
 - The `dedoc` utility (can be found at https://github.com/toiletbril/dedoc)
