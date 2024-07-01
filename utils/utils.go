@@ -4,8 +4,6 @@ import (
 	"io"
 	"os"
 	"strings"
-
-	"github.com/ZXSQ1/dopen/files"
 )
 
 /*
@@ -98,8 +96,18 @@ return:
 */
 func IsBinaryFound(binaryName string) bool {
 	for _, path := range strings.Split(GetEnvironVar("PATH"), ":") {
-		if files.IsExists(path + "/" + binaryName) {
-			return true
+		binaries, _ := os.ReadDir(path)
+
+		for _, actualBinary := range binaries {
+			actualBinaryName := actualBinary.Name()
+
+			if strings.ContainsRune(actualBinaryName, '.') {
+				actualBinaryName = actualBinary.Name()[:strings.LastIndex(actualBinary.Name(), ".")]
+			}
+
+			if actualBinaryName == binaryName {
+				return true
+			}
 		}
 	}
 
