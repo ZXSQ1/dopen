@@ -111,7 +111,7 @@ func start(args []string) {
 }
 
 func checkRequiredBins() {
-	requiredBins := []string{"glow", "dedoc", "fzf"}
+	requiredBins := []string{"ov", "dedoc", "fzf"}
 	requiredBinFound := true
 
 	for _, bin := range requiredBins {
