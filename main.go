@@ -1,34 +1,14 @@
 package main
 
 import (
-	"embed"
 	"fmt"
 	"os"
-	"os/exec"
 	"slices"
 	"strings"
 
 	"github.com/ZXSQ1/dopen/doc_manager"
-	"github.com/ZXSQ1/dopen/files"
 	"github.com/ZXSQ1/dopen/utils"
 )
-
-//go:embed install-deps.sh
-var script embed.FS
-
-func getDependencies() {
-	out, _ := script.ReadFile("install-deps.sh")
-	files.WriteFile(".temp", out)
-
-	proc := exec.Command("bash", ".temp")
-	proc.Stdout = os.Stdout
-	proc.Stderr = os.Stderr
-	proc.Stdin = os.Stdin
-
-	proc.Run()
-
-	os.Remove(".temp")
-}
 
 func help() {
 	message := `
@@ -38,7 +18,6 @@ options:
 	--list, -l             for listing the docs
 	--download, -d         for downloading the doc
 	--remove, -r           for removing the doc
-	--get-deps             for getting the dependencies to dopen
 	`
 
 	message = strings.ReplaceAll(message, "\\t", "\t")
@@ -82,8 +61,6 @@ func handle(args []string) {
 		}
 
 		doc_manager.RemoveDocs(args[1], true)
-	case "--get-deps":
-		getDependencies()
 	default:
 		if slices.Contains(doc_manager.ListDocs()[0], option) {
 			doc_manager.OpenDocs(option)
@@ -122,9 +99,6 @@ func checkRequiredBins() {
 	}
 
 	if !requiredBinFound {
-		println("installing dependencies....")
-		getDependencies()
-
 		os.Exit(1)
 	}
 }
