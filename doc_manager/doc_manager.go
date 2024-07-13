@@ -26,6 +26,10 @@ var (
 	RootDir     = utils.GetEnvironVar("HOME") + "/.cache/" + RootDirName
 	tempDir     = RootDir + "/.temp"
 	ColumnWidth = "80"
+
+	DedocDir = utils.GetEnvironVar("HOME") + "/.dedoc"
+	DedocFetchedDocsFile = DedocDir + "/docs.json"
+	DedocDocsetDir = DedocDir + "/docsets"
 )
 
 /*
