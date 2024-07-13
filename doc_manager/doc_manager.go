@@ -1,6 +1,7 @@
 package doc_manager
 
 import (
+	"encoding/json"
 	"os"
 	"os/exec"
 	"slices"
@@ -79,19 +80,21 @@ func ListDocs() [][]string {
 	docNames := []string{}
 	docStatus := []string{}
 
-	proc := exec.Command("dedoc", "list")
-	out, _ := proc.Output()
-	list := strings.Split(string(out), ",")
+	var data []map[string]any
 
-	for _, doc := range list {
-		doc = strings.TrimSpace(doc)
+	jsonData, _ := files.ReadFile(DedocFetchedDocsFile)
+	json.Unmarshal(jsonData, &data)
 
-		if strings.Contains(doc, "downloaded") {
-			docNames = append(docNames, strings.Split(doc, " ")[0])
+	for _, doc := range data {
+		docName := doc["slug"]
+		docName = strings.TrimSpace(docName.(string))
+
+		docNames = append(docNames, docName.(string))
+
+		if files.IsExists(DedocDocsetDir + "/" + docName.(string)) {
 			docStatus = append(docStatus, docInstalled)
 		} else {
-			docNames = append(docNames, doc)
-			docStatus = append(docStatus, docNotInstalled)
+			docStatus = append(docStatus, docNotInstalled)	
 		}
 	}
 
